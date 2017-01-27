@@ -1,0 +1,290 @@
+---
+title: "Seal cleaning"
+author: "Ian Hoppe"
+date: "`r format( Sys.Date(), '%B %d, %Y' )`"
+output:
+  bookdown::html_document2:
+    theme: lumen
+    highlight: tango
+    number_sections: FALSE
+---
+
+```{r initializR}
+
+knitr::opts_chunk$set( echo = FALSE, 
+                       message = FALSE, 
+                       warning = FALSE )
+
+```
+
+```{r pkgR}
+
+library( tidyverse )
+library( lubridate )
+library( stringr )
+library( broom )
+library( gdata )
+
+```
+
+```{r impoRt}
+
+# Read in each of the pertinent Excel spreadsheets.
+otters.1 <- read.xls( xls = "data/RAW/2004 and 2005 N sea otter serology for Liz_JAN2014.xls", 
+                      sheet = "Serology04-05", 
+                      method = "csv", 
+                      na.strings = c( "NA", "#DIV/0!", "" ), 
+                      stringsAsFactors = FALSE ) %>% 
+  filter( !is.na( Sea.Otter.ID ) ) # Remove the comment after the last line.
+
+otters.2 <- read.xls( xls = "data/RAW/2004 and 2005 N sea otter serology for Liz_JAN2014.xls", 
+                      sheet = "Morb Serology archived", 
+                      method = "csv", 
+                      na.strings = c( "NA", "#DIV/0!", "" ), 
+                      stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) ) # File appends extra (empty) columns.
+
+seals <- read.xls( xls = "data/RAW/PDV serology data for Ailsa_unedited.xlsx", 
+                   sheet = "All species PDV only serology", 
+                   method = "csv", 
+                   na.strings = c( "NA", "#DIV/0!", "" ), 
+                   stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) ) # Remove extra columns with comments.
+
+```
+
+```{r meRge}
+
+# Combine the otter data and prettify names.
+otters <- full_join( x = otters.1, 
+                     y = otters.2, 
+                     by = c( "Sea.Otter.ID" = "Sea.Otter.ID", 
+                             "capture.date" = "Collection_Date", 
+                             "Type_Source" = "Type_Source", 
+                             "Sex" = "Sex", 
+                             "Age.Class.Oct.06" = "Age.Class", 
+                             "capture.location" = "Collec.location", 
+                             "Ph.Dist" = "Ph.Dist" ) ) %>% 
+  rename( ID = Sea.Otter.ID, 
+          Date = capture.date, 
+          Type = Type_Source, 
+          Age.class = Age.Class.Oct.06, 
+          Year = year, 
+          Location = capture.location, 
+          Area = area, 
+          PDV = Ph.Dist, 
+          pdv20 = X.20, 
+          pdv30 = X.30, 
+          CDV = CDV..OK. ) %>% 
+  mutate( Species = "Southern sea otter" )
+
+# Prettify seal names.
+seals <- seals %>% 
+  rename( ID = AnimalID, 
+          Date = CaptureDate, 
+          Year = CaptureYear, 
+          Location = CaptureSite, 
+          Area = Region, 
+          Region = BroadRegion, 
+          Age_months = Age..mo., 
+          Type = Disposition, 
+          PDV_USA.2006 = PDV.Titre..USA2006., 
+          PDV_NL.2002 = PDV.Titre..NL2002., 
+          pdv24 = PDV.Result..24.................1...Pos..0...Neg., 
+          pdv32 = PDV.Result..32.................1...Pos..0...Neg., 
+          pdv64 = PDV.Result..64.................1...Pos..0...Neg. )
+
+# Combine seal and otter data.
+serology <- full_join( x = seals, 
+                       y = otters, 
+                       by = c( "ID", "Species", "Date", "Year", "Type", "Location", "Area", "Age.class", "Sex" ) )
+
+```
+
+```{r exploRe, include = FALSE, eval = FALSE}
+
+with( serology, table( Species, useNA = "ifany" ) )
+with( serology, table( Date, useNA = "ifany" ) )          # 3 NA; formats: %m/%d/%y, %m/%d/%Y, %Y-%m-%d, %m/%d/%Y - %m/%d/%Y, %b %Y, %b %y
+with( serology, table( Year, useNA = "ifany" ) )          # 133 NA; 2001--2013
+with( serology, table( Location, useNA = "ifany" ) )      # 7 NA
+with( serology, table( Area, useNA = "ifany" ) )          # 230 NA
+with( serology, table( Age, useNA = "ifany" ) )           # 749 NA; 2, 4-5, 7-12, 14-17, 20, 23-24, 26, 28, 38, 40, 45 months; P
+with( serology, table( Age.class, useNA = "ifany" ) )     # 29 NA; A & Adult, J & Juvenile; P & Pup; 'Subadult' & 'Subadult '; U; YOY
+with( serology, table( Sex, useNA = "ifany" ) )           # 214 NA; F & Female; M & Male; U & Unknown
+with( serology, table( Type, useNA = "ifany" ) )          # Dead; live capture & Live capture & Live captured & Live-capture; Subsistence harvest
+with( serology, table( pdv24, useNA = "ifany" ) )         # 222 NA; 0/1
+with( serology, table( pdv32, useNA = "ifany" ) )         # 222 NA; 0/1
+with( serology, table( pdv64, useNA = "ifany" ) )         # 222 NA; 0/1
+with( serology, table( pdv20, useNA = "ifany" ) )         # 1346 NA; neg/pos
+with( serology, table( pdv30, useNA = "ifany" ) )         # 1346 NA; neg/pos
+with( serology, table( PDV_USA.2006, useNA = "ifany" ) )  # 728 NA; <#, <#T, > #, #, #T, unable to read T
+with( serology, table( PDV_NL.2002, useNA = "ifany" ) )   # 789 NA; #
+with( serology, table( PDV, useNA = "ifany" ) )           # 1204 NA; -, Neg, Neg (<=#), Neg (<#), Neg (#:#), Pos (#:#), Toxic (<#), Toxic (#:#), QNS, No sample
+with( serology, table( CDV, useNA = "ifany" ) )           # 1292 NA; Neg (<#), Pos (#:#), Toxic (#:#), QNS, No sample
+with( serology, table( DMV, useNA = "ifany" ) )           # 1409 NA; Neg (<#), Toxic (#:#), QNS
+with( serology, table( PMV, useNA = "ifany" ) )           # 1409 NA; Neg (<#), QNS
+
+ids <- with( serology, data.frame( table( ID, useNA = "ifany" ) ) )
+dupIDs <- as.character( ids[ which( ids$Freq != 1 ), ]$ID )
+dups <- serology[ which( serology$ID %in% dupIDs ), ]
+
+```
+
+```{r dateDealings}
+
+# Parse dates.
+# Replace "7/9/2010 - 8/9/2010" with "July 2010"
+date.key <- c( "Jul 2010" = "7/9/2010 - 8/9/2010", "Sep 2004" = "Sept 04" )
+serology$Date <- plyr::mapvalues( x = serology$Date, 
+                                  from = date.key, 
+                                  to = names( date.key ) )
+# Unfortunately, this locks all Month-Year "dates" to the 1st of the month, and all Year-only "dates" to Jan 1st.
+serology$lubriDate <- parse_date_time( x = serology$Date, 
+                                       orders = c( "mdy", "Y", "Ymd", "mdY", "bY", "BY" ) )
+
+# There are 4 Date-Year mismatches; I strongly suspect the year in "Year" is correct.
+yrInds <- which( year( serology$lubriDate ) != serology$Year )           # Find them.
+year( serology$lubriDate[ yrInds ] ) <- serology$Year[ yrInds ]          # Correct them.
+
+# Now create separate columns for Year, Month, and Day (if available).
+serology$Year <- year( serology$lubriDate )
+serology$Month <- month( serology$lubriDate )
+serology$Day <- mday( serology$lubriDate )
+
+# BUT, some of those dates didn't actually have months or days (see comment above). We need to take care of that.
+noDay <- which( !grepl( pattern = "\\/|-", x = serology$Date ) )        # Those without a day term are missing delimiters (i.e., / or -).
+noMonth <- which( nchar( serology$Date ) == 4 )                         # Those without a month term are all limited to four characters.
+# serology$Date[ noDay ]                                                # Check to be sure that these all DON'T have days.
+# serology$Date[ noMonth ]                                              # Check to be sure that these all DON'T have months.
+# serology$Date[ -noDay ]                                               # Check to be sure that these all DO have days.
+# serology$Date[ -noMonth ]                                             # Check to be sure that these all DO have months.
+
+# Now, re-train the month and day columns accordingly.
+serology$Day[ noDay ] <- NA
+serology$Month[ noMonth ] <- NA
+
+```
+
+```{r demographicDealings}
+
+# Homogenize sex labels.
+sex.key <- c( "F" = "Female", "M" = "Male", "U" = "Unknown" )
+serology$Sex <- plyr::mapvalues( x = serology$Sex, 
+                                 from = sex.key, 
+                                 to = names( sex.key ) )
+
+# Homogenize age labels.
+age.key <- c( "A" = "Adult", "J" = "Juvenile", "P" = "Pup", "Subadult" = "Subadult ", "U" = "Unknown", "YOY" = "YOY" )
+serology$Age.class <- plyr::mapvalues( x = serology$Age.class, 
+                                       from = age.key, 
+                                       to = names( age.key ) )
+
+# 'Age' column contains both 'P' and 'Pup' values.
+serology$Age <- plyr::mapvalues( x = serology$Age, 
+                                 from = age.key, 
+                                 to = names( age.key ) )
+
+# with( serology, table( Age, Age_months, useNA = "ifany" ) )                # Check to be sure age categorizations are in agreement.
+
+```
+
+```{r diseaseDealings}
+
+# These are the values that show up in the various titer columns (PDV_USA.2006, PDV_NL.2002, PDV, CDV, PMV, DMV)
+# <#, <#T, > #, #, #T, unable to read T, -, Neg, Neg (<=#), Neg (<#), Neg (1:#), Pos (1:#), Toxic (<#), Toxic (1:#), QNS, No sample, NA
+# I will deal with them each in the following ways with respect to titer value:
+# NA <- unable to read T, -, QNS, No sample, NA
+# 0 <- <#, <#T, Neg, Neg (<=#), Neg (<#), Toxic (<#)
+# # <- Neg (1:#), Pos (1:#), Toxic (1:#), #, #T, > #
+
+# Create a function to coerce messy titer records into clean (numeric or NA) records by pattern matching.
+tidyTiter <- function( .titer ){
+  # where .titer is a [character] vector of messy titer records.
+
+  ## Set patterns:
+  # recognize as 0 titer
+  ZT <- "(?:(?:<\\s*=?\\s*(\\d+\\.?\\d*))|[Nn]eg)"                        # all titers with the pattern "...<...#..."
+  # recognize as some number
+  NumT <- "(?:(?:1:)|(?:>\\s*))?(\\d+\\.?\\d*)"                           # all titers with the pattern "...1:#..." OR ">...#"
+  # recognize as NA
+  NAT <- "(?:[Uu]nable)|(?:-)|(?:[Qq][Nn][Ss])|(?:[Nn][Oo])|(?:[Nn][Aa])" # all titers with 'unable' OR '-' OR 'qns' OR 'na'
+  
+  
+  ###### NumInd fails w/ ratios ( "1:8" --> "18" )
+  
+  
+  ## Find indices of each pattern and replace:
+  # zeros
+  ZInd <- grepl( pattern = ZT, x = .titer )         # Find!
+  .titer[ ZInd ] <- "0"                             # Replace!
+  # numbers
+  NumInd <- grepl( pattern = NumT, x = .titer )                                                                                 # Find!
+  .titer[ NumInd ] <- gsub( pattern = paste( "\\D*", NumT, "\\D*", sep = "" ), replacement = "\\1", x = .titer[ NumInd ] )      # Replace!
+  # NAs
+  NAInd <- grepl( pattern = NAT, x = .titer )       # Find!
+  .titer[ NAInd ] <- NA                             # Replace!
+  
+  as.numeric( .titer )                              # Numerize.
+  
+}
+
+# # Check to be sure tidyTiter() is doing what you intend for it to do!
+# with( serology, data.frame( tidyTiter( PDV_USA.2006 ), PDV_USA.2006 ) ) %>% distinct()
+# with( serology, data.frame( tidyTiter( PDV_NL.2002 ), PDV_NL.2002 ) ) %>% distinct()
+# with( serology, data.frame( tidyTiter( PDV ), PDV ) ) %>% distinct()
+# with( serology, data.frame( tidyTiter( CDV ), CDV ) ) %>% distinct()
+# with( serology, data.frame( tidyTiter( PMV ), PMV ) ) %>% distinct()
+# with( serology, data.frame( tidyTiter( DMV ), DMV ) ) %>% distinct()
+
+# Now tidy those titers!
+serology$PDV_USA.2006_Titer <- tidyTiter( serology$PDV_USA.2006 )
+serology$PDV_NL.2002_Titer <- tidyTiter( serology$PDV_NL.2002 )
+serology$PDV_Titer <- tidyTiter( serology$PDV )
+serology$CDV_Titer <- tidyTiter( serology$CDV )
+serology$PMV_Titer <- tidyTiter( serology$PMV )
+serology$DMV_Titer <- tidyTiter( serology$DMV )
+
+# Create a function to check whether any titers in a series of titers for a given record exceed some cutoff.
+titer.check <- function( .cutoff, .cols, .data ){
+  # where .cutoff is some numeric critical minimum, .cols is a character vector of column names to check against (all .cols should be tidy titers!), and .data is the data.frame in which to search for .cols
+  
+  # First subset the .data and check to make sure .cols are numeric
+  .data <- .data[ , .cols ]
+  stopifnot( all( apply( X = .data, MARGIN = 2, FUN = is.numeric ) ) )
+
+  # Now check across all .cols to see whether any EXCEED [>] the .cutoff. If all are NA, return NA. Otherwise, 1/0.
+  hi.titer <- apply( X = .data, 
+                     MARGIN = 1, 
+                     FUN = function( .titers ) ifelse( test = all( is.na( .titers ) ), 
+                                                       yes = NA, 
+                                                       no = as.numeric( any( .titers > .cutoff, na.rm = TRUE ) ) ) )
+  
+  hi.titer
+}
+
+# Re-train PDV infection statuses.
+pdv.cols <- c( "PDV_USA.2006_Titer", "PDV_NL.2002_Titer", "PDV_Titer" )
+serology$pdv20 <- titer.check( 20, pdv.cols, serology )
+serology$pdv30 <- titer.check( 30, pdv.cols, serology )
+serology$pdv24 <- titer.check( 24, pdv.cols, serology )
+serology$pdv32 <- titer.check( 32, pdv.cols, serology )
+serology$pdv64 <- titer.check( 64, pdv.cols, serology )
+
+```
+
+
+###**N O T E S** {#notes}
+
+48 fur seals sampled on St. Paul Island, AK between 7/9/2010 and 8/9/2010 were collectively assigned a July sampling date.
+
+-----
+
+These are the values that show up in the various titer columns (`PDV_USA.2006`, `PDV_NL.2002`, `PDV`, `CMV`, `PMV`, `PMV`)
+
+`<#`, `<#T`, `> #`, `#`, `#T`, `unable to read T`, `-`, `Neg`, `Neg (<=#)`, `Neg (<#)`, `Neg (1:#)`, `Pos (1:#)`, `Toxic (<#)`, `Toxic (1:#)`, `QNS`, `No sample`, `NA`
+
+I will deal with them each in the following ways with respect to titer value:
+
+* `NA` `<-` `unable to read T`, `-`, `QNS`, `No sample`, `NA`
+* `0` `<-` `<#`, `<#T`, `Neg`, `Neg (<=#)`, `Neg (<#)`, `Toxic (<#)`
+* `#` `<-` `Neg (1:#)`, `Pos (1:#)`, `Toxic (1:#)`
