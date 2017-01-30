@@ -76,7 +76,10 @@ otters <- full_join( x = otters.1,
           pdv20 = X.20, 
           pdv30 = X.30, 
           CDV = CDV..OK. ) %>% 
-  mutate( Species = "Southern sea otter" )
+  mutate( Species = "Southern sea otter", 
+          ID = str_replace_all( string = ID, 
+                                pattern = "^(?:\\s*)|(?:\\s*)$", 
+                                replacement = "" ) )
 
 # Prettify seal names.
 seals <- seals %>% 
@@ -92,7 +95,10 @@ seals <- seals %>%
           PDV_NL.2002 = PDV.Titre..NL2002., 
           pdv24 = PDV.Result..24.................1...Pos..0...Neg., 
           pdv32 = PDV.Result..32.................1...Pos..0...Neg., 
-          pdv64 = PDV.Result..64.................1...Pos..0...Neg. )
+          pdv64 = PDV.Result..64.................1...Pos..0...Neg. ) %>% 
+  mutate( ID = str_replace_all( string = ID, 
+                                pattern = "^(?:\\s*)|(?:\\s*)$", 
+                                replacement = "" ) )
 
 # Combine seal and otter data.
 serology <- full_join( x = seals, 
@@ -123,10 +129,6 @@ with( serology, table( PDV, useNA = "ifany" ) )           # 1204 NA; -, Neg, Neg
 with( serology, table( CDV, useNA = "ifany" ) )           # 1292 NA; Neg (<#), Pos (#:#), Toxic (#:#), QNS, No sample
 with( serology, table( DMV, useNA = "ifany" ) )           # 1409 NA; Neg (<#), Toxic (#:#), QNS
 with( serology, table( PMV, useNA = "ifany" ) )           # 1409 NA; Neg (<#), QNS
-
-ids <- with( serology, data.frame( table( ID, useNA = "ifany" ) ) )
-dupIDs <- as.character( ids[ which( ids$Freq != 1 ), ]$ID )
-dups <- serology[ which( serology$ID %in% dupIDs ), ]
 
 ```
 
@@ -193,14 +195,14 @@ serology$Age <- plyr::mapvalues( x = serology$Age,
 # These are the values that show up in the various titer columns (PDV_USA.2006, PDV_NL.2002, PDV, CDV, PMV, DMV)
 # <#, <#T, > #, #, #T, unable to read T, -, Neg, Neg (<=#), Neg (<#), Neg (1:#), Pos (1:#), Toxic (<#), Toxic (1:#), QNS, No sample, NA
 # I will deal with them each in the following ways with respect to titer value:
-# NA <- unable to read T, -, QNS, No sample, NA
-# 0 <- <#, <#T, Neg, Neg (<=#), Neg (<#), Toxic (<#)
-# # <- Neg (1:#), Pos (1:#), Toxic (1:#), #, #T, > #
+# NA <- unable to read T, -, QNS, No sample, NA, <#T, Toxic (<#), #T, Toxic (1:#)
+# 0 <- <#, Neg, Neg (<=#), Neg (<#)
+# # <- Neg (1:#), Pos (1:#), #, > #
 
 # Create a function to coerce messy titer records into clean (numeric or NA) records by pattern matching.
 tidyTiter <- function( .titer ){
   # where .titer is a [character] vector of messy titer records.
-
+  
   ## Set patterns:
   # recognize as 0 titer
   ZT <- "(?:(?:<\\s*=?\\s*(\\d+\\.?\\d*))|[Nn]eg)"                        # all titers with the pattern "...<...#..."
@@ -208,12 +210,13 @@ tidyTiter <- function( .titer ){
   NumT <- "(?:(?:1:)|(?:>\\s*))?(\\d+\\.?\\d*)"                           # all titers with the pattern "...1:#..." OR ">...#"
   # recognize as NA
   NAT <- "(?:[Uu]nable)|(?:-)|(?:[Qq][Nn][Ss])|(?:[Nn][Oo])|(?:[Nn][Aa])" # all titers with 'unable' OR '-' OR 'qns' OR 'na'
-  
-  
-  ###### NumInd fails w/ ratios ( "1:8" --> "18" )
-  
+  # recognize toxic titers
+  ToxT <- "(?:[Tt][Oo][Xx][Ii][Cc])|(?:(?<=\\d)(?:\\s*[Tt]))"             # all titers with pattern 'Toxic' OR '#...T'
   
   ## Find indices of each pattern and replace:
+  # toxics
+  ToxInd <- grepl( pattern = ToxT, x = .titer, perl = TRUE )  # Find!
+  .titer[ ToxInd ] <- NA                                      # Replace!
   # zeros
   ZInd <- grepl( pattern = ZT, x = .titer )         # Find!
   .titer[ ZInd ] <- "0"                             # Replace!
@@ -270,8 +273,141 @@ serology$pdv24 <- titer.check( 24, pdv.cols, serology )
 serology$pdv32 <- titer.check( 32, pdv.cols, serology )
 serology$pdv64 <- titer.check( 64, pdv.cols, serology )
 
+# Create a function to check whether a messy titer indicates that the titer is 'toxic' (vectorized)
+toxic.check <- function( .data, ... ){
+  # where ... is a unquoted series of messy titer columns across which to check for toxic titer indicators in .data
+  
+  # Subset the data.
+  .data <- select_( .data, .dots = lazyeval::lazy_dots( ... ) )
+
+  # Define the regular expression pattern used to check for toxic titer indicators:
+  # Looks for 'Toxic' (caseless) OR '#...T' (caseless) OR '...T'
+  ToxT <- "(?:[Tt][Oo][Xx][Ii][Cc])|(?:(?<=\\d)(?:\\s*[Tt]))|(?:\\s+[T])"
+  NAT <- "(?:-)|(?:[Qq][Nn][Ss])|(?:[Nn][Oo])|(?:[Nn][Aa])"     ##### SHOULD RETURN 'NA' if all( is.na( . ) ) == T | if all match some NAT pattern
+  
+  toxic.records <- apply( X = .data,                                                                         # within the subsetted data...
+                          MARGIN = 2,                                                                        # look across rows...
+                          FUN = function( .tt ){ 
+
+                            ToxInd <- grepl( pattern = ToxT, x = .tt, perl = TRUE )                          # find locations of toxic indicators...
+                            NAInd <- ( ( grepl( pattern = NAT, x = .tt, perl = TRUE ) ) | is.na( .tt ) )     # of NA values and NA indicators...
+                            NoToxInd <- !( ToxInd | NAInd )                                                  # and of non-toxic titer records.
+                            
+                            .vv <- vector( mode = "logical", length = length( .tt ) )                        # allocate a new record.
+                            .vv[ NAInd ] <- NA                                                               # replace NA records with 'NA'
+                            .vv[ ToxInd ] <- TRUE                                                            # and toxic records with 'TRUE'.
+                            .vv                                                                              # all others are 'FALSE'
+                            } )
+  
+  toxic.records <- apply( X = toxic.records,                                                                 # within the new trinary (T/F/NA) data...
+                          MARGIN = 1,                                                                        # look across columns...
+                          FUN = function( .tt ){
+                            if( any( .tt, na.rm = TRUE ) ){                                                  # if any observations for a record have a toxic indicator,
+                              TRUE                                                                           # assign 'TRUE'
+                            } else if( any( !.tt, na.rm = TRUE ) ){                                          # if not, and if there exists some other valid observation,
+                              FALSE                                                                          # assign 'FALSE'
+                            } else {                                                                         # otherwise,
+                              NA                                                                             # assign 'NA'
+                            }
+                          } )
+  
+  as.numeric( toxic.records )                                                                                # return a binary [numeric] vector of the findings
+  
+}
+
+# Check for toxic titers by disease.
+serology$PDV_Toxic <- toxic.check( serology, PDV_USA.2006, PDV_NL.2002, PDV )
+serology$CDV_Toxic <- toxic.check( serology, CDV )
+serology$PMV_Toxic <- toxic.check( serology, PMV )
+serology$DMV_Toxic <- toxic.check( serology, DMV )
+
 ```
 
+```{r deDuplicatoR}
+
+# duplicate entries: Yun04-15, Yun04-19, A198, A240, #35, 125PG, AT1
+# recaptures: A00414, A00427, A00428
+# likely different animals: Bog1, SO9829, SO0128
+
+# # Review IDs and identify those that occur multiply.
+# ids <- with( serology, data.frame( table( ID, useNA = "ifany" ) ) )
+# dupIDs <- as.character( ids[ which( ids$Freq != 1 ), ]$ID )
+# dups <- serology[ which( serology$ID %in% dupIDs ), ]
+
+# After review with EVW, the duplicate cases are thought to fall into one of the following categories:
+trueDups <- c( "#35", "125PG", "A198", "A240", "AT1", "Yun04-15", "Yun04-19" )                         # true duplicates----------remove non-unique cases
+recaps <- c( "A00414", "A00427", "A00428" )                                                            # recaptures---------------preserve, but indicate recapture
+dblIds <- c( "Bog1", "SO0128", "SO9829" )                                                              # doubly-assigned IDs------re-assign IDs
+
+# # Examine duplicate entries to preserve unique data among all records.
+# dups[ which( dups$ID == trueDups[ 1 ] ), ] # #35--------2 records; 1 record includes value in PDV_NL.2002 not in other
+# dups[ which( dups$ID == trueDups[ 2 ] ), ] # 125PG------2 records; identical
+# dups[ which( dups$ID == trueDups[ 3 ] ), ] # A198-------2 records; 1 record includes value in PDV_NL.2002 not in other
+# dups[ which( dups$ID == trueDups[ 4 ] ), ] # A240-------2 records; 1 record includes value in PDV_NL.2002 not in other
+# dups[ which( dups$ID == trueDups[ 5 ] ), ] # AT1--------2 records; different values in PDV_USA.2006                                   <-------!!!
+# dups[ which( dups$ID == trueDups[ 6 ] ), ] # Yun04-15---2 records; 1 record includes value in PDV_NL.2002 not in other
+# dups[ which( dups$ID == trueDups[ 7 ] ), ] # Yun04-19---2 records; 1 record includes value in PDV_NL.2002 not in other
+
+# # Examine recapture entires (just to be safe)
+# dups[ which( dups$ID == recaps[ 1 ] ), ]  # A00414------2 records; 4 & 8 months (10/2003 & 2/2004)
+# dups[ which( dups$ID == recaps[ 2 ] ), ]  # A00427------2 records; 4 & 8 months (11/2003 & 2/2004)
+# dups[ which( dups$ID == recaps[ 3 ] ), ]  # A00428------2 records; 4 & 8 months (11/2003 & 2/2004)
+
+# # Examine doubly-assigned ID cases
+# dups[ which( dups$ID == dblIds[ 1 ] ), ]  # Bog1--------2 records; 5 years later, 1 month younger
+# dups[ which( dups$ID == dblIds[ 2 ] ), ]  # SO0128------2 records; 4 years later
+# dups[ which( dups$ID == dblIds[ 3 ] ), ]  # SO9829------3 records; 1998, 2001, 2005
+
+# Create a function to reconcile duplicate records.
+deDuplicator <- function( .data, .col, .ids, .type = c( "duplicate", "recurrence", "double" ), recur.col = "Recapture", seq.col = "Date" ){
+  # where .col is the quoted name of the identification column in .data through which to search for the individuals given in .id (a character vector)
+  # .type is the type of reconciliation sought:
+  #### if "duplicate", all rows with .ids are condensed into 1
+  #### if "recurrence", all rows with .ids are kept, but the "Recapture" column receives a '1' in later instances
+  #### if "double", row .ids are reassigned to be unique
+  
+  .type <- match.arg( .type, choices = c( "duplicate", "recurrence", "double" ) )
+
+  if( identical( .type, "duplicate" ) ){                                                                                      # If the duplication is a true duplication (error):
+    for( ii in .ids ){                                                                                                        # For each duplicated id,
+      idInds <- which( .data[ , .col ] %in% ii )                                                                              # determine the row ## in which it occurs.
+      numNAs <- apply( .data[ idInds, ], MARGIN = 1, FUN = function( .rr ) sum( is.na( .rr ) ) )                              # Count the number of missing observations for each record.
+      missingMore <- idInds[ -which.min( numNAs ) ]                                                                           # Figure out which are missing a larger chunk of data,
+      .data <- .data[ -missingMore, ]                                                                                         # and remove those records from the data.
+    }
+  } else if( identical( .type, "recurrence" ) ){                                                                              # If the duplication represents a recurrence:
+    for( ii in .ids ){                                                                                                        # For each duplicated id,
+      idInds <- which( .data[ , .col ] %in% ii )                                                                              # determine the row ## in which it occurs.
+      firstInd <- which.min( .data[ idInds, seq.col ] )                                                                       # Look in seq.col to determine which record is earliest,
+      .data[ idInds[ -firstInd ], recur.col ] <- 1                                                                            # and assign all other records a '1' in the recur.col
+    }
+  } else if( identical( .type, "double" ) ){                                                                                  # If the duplication represents a double-assignation of an ID:
+    for( ii in .ids ){                                                                                                        # For each duplicated id,
+      idInds <- which( .data[ , .col ] %in% ii )                                                                              # determine the row ## in which it occurs
+      idInds <- idInds[ order( .data[ idInds, seq.col ] ) ]                                                                   # and sort the indices by order of seq.col.
+      .data[ idInds, .col ] <- paste( .data[ idInds, .col ], letters[ seq_along( idInds ) ], sep = "_" )                      # Append differentiators to the ids by order of seq.col.
+    }
+  }
+  
+  .data                                                                                                                       # Return the .data.
+  
+}
+
+serology$Recapture <- 0    # Create a new column (used by deDuplicator if .type=="recurrence") to indicate recaptures.
+
+# deDuplicate!
+serology <- deDuplicator( serology, "ID", trueDups, .type = "duplicate" )                                                   # Remove duplicate entries.
+serology <- deDuplicator( serology, "ID", recaps, .type = "recurrence", recur.col = "Recapture", seq.col = "lubriDate" )    # Indicate recaptures.
+serology <- deDuplicator( serology, "ID", dblIds, .type = "double", seq.col = "lubriDate" )                                 # Clarify doubly-used identifiers.
+
+# # Check:
+# ids <- with( serology, data.frame( table( ID, useNA = "ifany" ) ) )
+# dupIDs <- as.character( ids[ which( ids$Freq != 1 ), ]$ID )
+# dups <- serology[ which( serology$ID %in% dupIDs ), ]                # The only duplicates are (correctly-indicated) recaptures...
+# nrow( serology )                                                     # There are now 7 fewer entries...
+# sum( serology$Recapture )                                            # Only 3 recapture events.
+
+```
 
 ###**N O T E S** {#notes}
 
@@ -279,12 +415,26 @@ serology$pdv64 <- titer.check( 64, pdv.cols, serology )
 
 -----
 
-These are the values that show up in the various titer columns (`PDV_USA.2006`, `PDV_NL.2002`, `PDV`, `CMV`, `PMV`, `PMV`)
+These are the values that show up in the various titer columns (`PDV_USA.2006`, `PDV_NL.2002`, `PDV`, `CDV`, `PMV`, `DMV`)
 
 `<#`, `<#T`, `> #`, `#`, `#T`, `unable to read T`, `-`, `Neg`, `Neg (<=#)`, `Neg (<#)`, `Neg (1:#)`, `Pos (1:#)`, `Toxic (<#)`, `Toxic (1:#)`, `QNS`, `No sample`, `NA`
 
 I will deal with them each in the following ways with respect to titer value:
 
-* `NA` `<-` `unable to read T`, `-`, `QNS`, `No sample`, `NA`
-* `0` `<-` `<#`, `<#T`, `Neg`, `Neg (<=#)`, `Neg (<#)`, `Toxic (<#)`
-* `#` `<-` `Neg (1:#)`, `Pos (1:#)`, `Toxic (1:#)`
+* `NA` `<-` `unable to read T`, `-`, `QNS`, `No sample`, `NA`, `<#T`, `Toxic (<#)`, `Toxic (1:#)`
+* `0` `<-` `<#`, `Neg`, `Neg (<=#)`, `Neg (<#)`
+* `#` `<-` `Neg (1:#)`, `Pos (1:#)`, `#`, `> #`
+
+-----
+
+I deDuplicated the following individuals:
+
+* True duplicates: `#35`, `125PG`, `A198`, `A240`, `AT1`, `Yun04-15`, `Yun04-19`
+* Recaptures: `A00414`, `A00427`, `A00428`
+* Doubly-assigned IDs: `Bog1`, `SO0128`, `SO9829`
+
+Using the following methods:
+
+* True duplicates: removed cases (_i.e._, rows) with more NA values
+* Recaptures: Preserved all rows; indicated recurrences with a `1` in `Recapture` column
+* Doubly-assigned IDs: appended `a, b, c, ...` to each ID
