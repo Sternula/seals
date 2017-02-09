@@ -1,0 +1,299 @@
+---
+title: "Seal cleaning: PCR"
+author: "Ian Hoppe"
+date: "`r format( Sys.Date(), '%B %d, %Y' )`"
+output:
+  bookdown::html_document2:
+    theme: lumen
+    highlight: tango
+    number_sections: FALSE
+---
+
+```{r initializR}
+
+knitr::opts_chunk$set( echo = FALSE, 
+                       message = FALSE, 
+                       warning = FALSE )
+
+```
+
+```{r pkgR}
+
+library( tidyverse )
+library( lubridate )
+library( stringr )
+library( broom )
+library( gdata )
+
+```
+
+```{r impoRt}
+
+#### Read in all pertinent Excel spreadsheets
+
+### NMML Northern fur seal swabs from St. George, St. Paul, and Bogoslof islands, 2012 and 2015.
+nfs_goldstein <- read.xls( xls = "data/RAW/11-22-16_NFS swabs 2012-2015 for Goldstein_cloned.xlsx",
+                           sheet = "Sheet1",
+                           method = "csv",
+                           na.strings = c( "" ),
+                           stringsAsFactors = FALSE ) %>%
+  filter( !is.na( SampleLabel ) ) %>%
+  rename( Harvest = Harvest.,
+          Box = Box. )
+
+### NMML pan morbillivirus records from records: 
+# NFS from St. Paul Island (2011)...
+nfs.pmv_st.paul_2011 <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", 
+                                 sheet = "NFS St Paul 2011", 
+                                 skip = 1, 
+                                 method = "csv", 
+                                 na.strings = c( "NA", "" ), 
+                                 stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) ) %>% 
+  rename( Age = Age. )
+
+# ...St. Paul Island (2012)...
+nfs.pmv_st.paul_2012 <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", 
+                                 sheet = "NFS St Paul 2012", 
+                                 skip = 1, 
+                                 method = "csv", 
+                                 na.strings = c( "NA", "" ), 
+                                 stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) ) %>% 
+  rename( Age = Age. )
+
+# ...St. George Island (2012)...
+nfs.pmv_st.george <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", 
+                                 sheet = "NFS St George 2012", 
+                                 skip = 1, 
+                                 method = "csv", 
+                                 na.strings = c( "NA", "" ), 
+                                 stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) ) %>% 
+  rename( Age = Age. )
+
+# ...and San Miguel Island (2012)...
+nfs.pmv_san.miguel <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", 
+                                 sheet = "NFS SMI 2012", 
+                                 skip = 1, 
+                                 method = "csv", 
+                                 na.strings = c( "NA", "" ), 
+                                 stringsAsFactors = FALSE ) %>% 
+  rename( Age = Age. )
+
+# As well as SSL from Rogue Reef...
+ssl.pmv_rogue.reef <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", 
+                                sheet = "SSL Rogue Reef 2013", 
+                                skip = 1, 
+                                method = "csv", 
+                                na.strings = c( "NA", "" ), 
+                                stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) ) %>% 
+  rename( Age = Age. )
+
+# ...Medney and Koslov...
+ssl.pmv_medney.koslov <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", 
+                                  sheet = "Russian SSL 2004 MedneyKoslov", 
+                                  skip = 1, 
+                                  method = "csv", 
+                                  na.strings = c( "NA", "" ), 
+                                  stringsAsFactors = FALSE )
+# ...Yamsky...
+ssl.pmv_yamsky <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", # complains because of the Cyrillic 'Ya' character in the animal IDs---but it works OK.
+                            sheet = "Russian SSL 2004 Yamsky", 
+                            skip = 1, 
+                            method = "csv", 
+                            na.strings = c( "NA", "" ), 
+                            stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) )
+
+# ...Chirikof and Marmot...
+ssl.pmv_chirikof.marmot <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", 
+                                     sheet = "SSL 2004 Chirikof, Marmot", 
+                                     skip = 1, 
+                                     method = "csv", 
+                                     na.strings = c( "NA", "" ), 
+                                     stringsAsFactors = FALSE )
+
+# ...Aggattu, Ugamak, and Bogos (2011)...
+ssl.pmv_aggattu.ugamak.bogos <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", 
+                                          sheet = "SSL 2011 Aggattu, Ugamak, Bogos", 
+                                          skip = 1, 
+                                          method = "csv", 
+                                          na.strings = c( "NA", "" ), 
+                                          stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) )
+
+# ...and Aggattu, Ulak, and Bogos (2013).
+ssl.pmv_aggattu.ulak.bogos <- read.xls( xls = "data/RAW/NMML SSL and NFS Morbilli Results Apr2016.xlsx", 
+                                        sheet = "SSL 2013 Aggattu, Ulak, Bogos", 
+                                        skip = 1, 
+                                        method = "csv", 
+                                        na.strings = c( "NA", "" ), 
+                                        stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) )
+
+# Join up all the data from the NMML SSL/NFS PMV file.
+nmml.pmv <- bind_rows( nfs.pmv_st.paul_2011 = nfs.pmv_st.paul_2011, 
+                       nfs.pmv_st.paul_2012 = nfs.pmv_st.paul_2012, 
+                       nfs.pmv_st.george = nfs.pmv_st.george, 
+                       nfs.pmv_san.miguel = nfs.pmv_san.miguel, 
+                       ssl.pmv_rogue.reef = ssl.pmv_rogue.reef, 
+                       ssl.pmv_aggattu.ugamak.bogos = ssl.pmv_aggattu.ugamak.bogos, 
+                       ssl.pmv_aggattu.ulak.bogos = ssl.pmv_aggattu.ulak.bogos, 
+                       ssl.pmv_chirikof.marmot = ssl.pmv_chirikof.marmot, 
+                       ssl.pmv_medney.koslov = ssl.pmv_medney.koslov, 
+                       ssl.pmv_yamsky = ssl.pmv_yamsky, 
+                       .id = "Source" )
+
+### NMML polar ice seal data from Oct. 2015
+# Ice seals...
+ak.ice.seals <- read.xls( xls = "data/RAW/UCD 2014 NMML Polar results October 2015.xls", 
+                          sheet = "AK Ice Seals", 
+                          skip = 1, 
+                          method = "csv", 
+                          na.strings = c( "NA", "" ), 
+                          stringsAsFactors = FALSE ) %>% 
+  filter( !grepl( pattern = "nucleic acid", x = Animal.ID ) )
+
+# ...and harbor seals.
+ak.harbor.seals <- read.xls( xls = "data/RAW/UCD 2014 NMML Polar results October 2015.xls", 
+                          sheet = "AK Harbor Seals", 
+                          skip = 1, 
+                          method = "csv", 
+                          na.strings = c( "NA", "" ), 
+                          stringsAsFactors = FALSE ) %>% 
+  filter( !grepl( pattern = "nucleic acid", x = Animal.ID ) ) %>% 
+  mutate( species = "harbor" )
+
+# Join 'em...(because you can't beat 'em).
+nmml.flu_pmv <- bind_rows( ak.ice.seals, ak.harbor.seals )
+
+### Combined PCR/serologic results
+spp_liz_serology <- read.xls( xls = "data/RAW/PCR data for Liz-revised MAY2014.xls", 
+                              sheet = "11_13 Serologic analysis", 
+                              method = "csv", 
+                              na.strings = c( "NA", "" ), 
+                              stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) ) %>% 
+  rename( SampleNo = Sample.No., 
+          Date = Sample.date, 
+          Year = Sample.year, 
+          Age = Actual.Age, 
+          SN_Result = Animal.SN.Result, 
+          UB.PDV.SN_USA.2006 = UB.PDV.SN.USA2006, 
+          PDV.SN_20 = PDV.SN.result...20., 
+          PDV.SN_30 = PDV.Sn.result...30. )
+
+spp_liz_pcr.xls <- read.xls( xls = "data/RAW/PCR data for Liz-revised MAY2014.xls", 
+                             sheet = "All PCR", 
+                             method = "csv", 
+                             na.strings = c( "NA", "" ), 
+                             stringsAsFactors = FALSE ) %>% 
+  dplyr::select( -starts_with( "X" ) ) %>% 
+  rename( SampleNo = Sample.No., 
+          Date = Sample.date, 
+          Year = Sample.year, 
+          Age = Actual.Age, 
+          PCR_Result = Animal.PCR.Result, 
+          PDV_Titer = Serology.titer )
+
+spp_liz_pcr.csv <- read.csv( file = "data/RAW/PDVpcrdata.csv", 
+                             stringsAsFactors = FALSE ) %>% 
+  rename( SampleNo = Sample.No., 
+          Date = Sample.date, 
+          Year = Sample.year, 
+          Age = Actual.Age, 
+          PCR_Result = Animal.PCR.Result, 
+          PCR_Category = Pcr.cat, 
+          PDV_Titer = Serology.titer, 
+          pdv32 = sero.32 )
+
+#                              
+# nfs_goldstein
+# nfs.pmv_st.paul_2011
+# nfs.pmv_st.paul_2012
+# nfs.pmv_st.george
+# nfs.pmv_san.miguel
+# ssl.pmv_rogue.reef
+# ssl.pmv_aggattu.ugamak.bogos
+# ssl.pmv_aggattu.ulak.bogos
+# ssl.pmv_chirikof.marmot
+# ssl.pmv_medney.koslov
+# ssl.pmv_yamsky
+# ak.ice.seals
+# ak.harbor.seals
+# spp_liz_serology
+# spp_liz_pcr.xls
+# spp_liz_pcr.csv
+
+```
+
+```{r}
+
+dfs <- list( nfs_goldstein,
+             nfs.pmv_st.paul_2011,
+             nfs.pmv_st.paul_2012,
+             nfs.pmv_st.george,
+             nfs.pmv_san.miguel,
+             ssl.pmv_rogue.reef,
+             ssl.pmv_aggattu.ugamak.bogos,
+             ssl.pmv_aggattu.ulak.bogos,
+             ssl.pmv_chirikof.marmot,
+             ssl.pmv_medney.koslov,
+             ssl.pmv_yamsky,
+             ak.ice.seals,
+             ak.harbor.seals,
+             spp_liz_serology,
+             spp_liz_pcr.xls,
+             spp_liz_pcr.csv )
+
+lapply( dfs, names )
+
+```
+
+
+```{r compaRe}
+
+## Compare spp_liz_pcr.xls with spp_liz_pcr.csv
+
+# Identify shared columns
+shareCols <- names( spp_liz_pcr.xls )[ which( names( spp_liz_pcr.xls ) %in% names( spp_liz_pcr.csv ) ) ]
+
+# Determine mismatches (may reveal varying arrangements of data)
+mismatches <- list()
+for( .cc in shareCols ){
+  inds <- which( spp_liz_pcr.xls[ , .cc ] != spp_liz_pcr.csv[ , .cc ] )
+  mismatches[[ .cc ]] <- if( length( inds ) != 0 ){ inds }else{ NULL }
+}
+
+misDat <- data.frame( pcr = spp_liz_pcr.xls$Date[ mismatches$Date ], 
+                      csv = spp_liz_pcr.csv$Date[ mismatches$Date ], 
+                      stringsAsFactors = FALSE )                                            # different formats
+# sort( unique( misDat$pcr ) ) # Mdy, YMd, bY
+# sort( unique( misDat$csv ) ) # mdy, 
+
+misSpc <- data.frame( pcr = spp_liz_pcr.xls$Species[ mismatches$Species ], 
+                      csv = spp_liz_pcr.csv$Species[ mismatches$Species ], 
+                      stringsAsFactors = FALSE )                                            # PCR 'Nothern sea otter' == CSV 'Northern sea otter'
+misAge <- data.frame( pcr = spp_liz_pcr.xls$Age.class[ mismatches$Age.class ], 
+                      csv = spp_liz_pcr.csv$Age.class[ mismatches$Age.class ], 
+                      stringsAsFactors = FALSE )                                            # PCR 'SA' == CSV 'Subadult'
+misDsp <- data.frame( pcr = spp_liz_pcr.xls$Type[ mismatches$Disposition ], 
+                      csv = spp_liz_pcr.csv$Type[ mismatches$Disposition ], 
+                      stringsAsFactors = FALSE )                                            # PCR 'Live captured' 'Live-captured' 'Live-capture' == CSV 'Live capture'
+misLat <- data.frame( pcr = spp_liz_pcr.xls$Latitude[ mismatches$Latitude ], 
+                      csv = spp_liz_pcr.csv$Latitude[ mismatches$Latitude ], 
+                      stringsAsFactors = FALSE )                                            # differ by ±4.8e-9
+misLon <- data.frame( pcr = spp_liz_pcr.xls$Longitude[ mismatches$Longitude ], 
+                      csv = spp_liz_pcr.csv$Longitude[ mismatches$Longitude ], 
+                      stringsAsFactors = FALSE )                                            # differ by ±4.8e-9
+misReg <- data.frame( pcr = spp_liz_pcr.xls$Region[ mismatches$Region ], 
+                      csv = spp_liz_pcr.csv$Region[ mismatches$Region ], 
+                      stringsAsFactors = FALSE )                                            # PCR 'SC' == CSV 'E GULF' & 'SEA'; PCR 'SE' == CSV 'SEA'; PCR 'SW' == CSV 'C GULF' & 'E ALEU' & 'E GULF'
+misPCR <- data.frame( pcr = spp_liz_pcr.xls$PCR_Result[ mismatches$PCR_Result ], 
+                      csv = spp_liz_pcr.csv$PCR_Result[ mismatches$PCR_Result ], 
+                      stringsAsFactors = FALSE )                                            # PCR Suspect positive == CSV Suspect Positive
+
+```
+

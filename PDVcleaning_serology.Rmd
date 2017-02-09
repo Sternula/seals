@@ -1,5 +1,5 @@
 ---
-title: "Seal cleaning"
+title: "Seal cleaning: serology"
 author: "Ian Hoppe"
 date: "`r format( Sys.Date(), '%B %d, %Y' )`"
 output:
@@ -67,7 +67,7 @@ otters <- full_join( x = otters.1,
                              "Ph.Dist" = "Ph.Dist" ) ) %>% 
   rename( ID = Sea.Otter.ID, 
           Date = capture.date, 
-          Type = Type_Source, 
+          Disposition = Type_Source, 
           Age.class = Age.Class.Oct.06, 
           Year = year, 
           Location = capture.location, 
@@ -76,9 +76,9 @@ otters <- full_join( x = otters.1,
           pdv20 = X.20, 
           pdv30 = X.30, 
           CDV = CDV..OK. ) %>% 
-  mutate( Species = "Southern sea otter", 
+  mutate( Species = "Northern sea otter", 
           ID = str_replace_all( string = ID, 
-                                pattern = "^(?:\\s*)|(?:\\s*)$", 
+                                pattern = "^(?:\\s*)|(?:\\s*)$", # Remove leading and trailing spaces from animal IDs.
                                 replacement = "" ) )
 
 # Prettify seal names.
@@ -90,7 +90,6 @@ seals <- seals %>%
           Area = Region, 
           Region = BroadRegion, 
           Age_months = Age..mo., 
-          Type = Disposition, 
           PDV_USA.2006 = PDV.Titre..USA2006., 
           PDV_NL.2002 = PDV.Titre..NL2002., 
           pdv24 = PDV.Result..24.................1...Pos..0...Neg., 
@@ -103,7 +102,34 @@ seals <- seals %>%
 # Combine seal and otter data.
 serology <- full_join( x = seals, 
                        y = otters, 
-                       by = c( "ID", "Species", "Date", "Year", "Type", "Location", "Area", "Age.class", "Sex" ) )
+                       by = c( "ID", "Species", "Date", "Year", "Disposition", "Location", "Area", "Age.class", "Sex" ) )
+
+```
+
+```{r localizeR, eval = FALSE, include = FALSE}
+
+sCapSite <- data.frame( Name = sort( unique(seals$Location) ), 
+                        source = "seals", 
+                        type = "CaptureSite", 
+                        stringsAsFactors = FALSE )
+sRegion <- data.frame( Name = sort( unique(seals$Area) ), 
+                       source = "seals", 
+                       type = "Region", 
+                       stringsAsFactors = FALSE )
+sBRegion <- data.frame( Name = sort( unique(seals$Region) ), 
+                        source = "seals", 
+                        type = "BroadRegion", 
+                        stringsAsFactors = FALSE )
+oColLoc <- data.frame( Name = sort( unique(otters$Location) ), 
+                       source = "otters", 
+                       type = "capture location OR Collec location", 
+                       stringsAsFactors = FALSE )
+oArea <- data.frame( Name = sort( unique(otters$Area) ), 
+                     source = "otters", 
+                     type = "area", 
+                     stringsAsFactors = FALSE )
+
+allLocs <- bind_rows( sCapSite, sRegion, sBRegion, oColLoc, oArea ) %>% arrange( Name )
 
 ```
 
@@ -117,7 +143,7 @@ with( serology, table( Area, useNA = "ifany" ) )          # 230 NA
 with( serology, table( Age, useNA = "ifany" ) )           # 749 NA; 2, 4-5, 7-12, 14-17, 20, 23-24, 26, 28, 38, 40, 45 months; P
 with( serology, table( Age.class, useNA = "ifany" ) )     # 29 NA; A & Adult, J & Juvenile; P & Pup; 'Subadult' & 'Subadult '; U; YOY
 with( serology, table( Sex, useNA = "ifany" ) )           # 214 NA; F & Female; M & Male; U & Unknown
-with( serology, table( Type, useNA = "ifany" ) )          # Dead; live capture & Live capture & Live captured & Live-capture; Subsistence harvest
+with( serology, table( Disposition, useNA = "ifany" ) )   # Dead; live capture & Live capture & Live captured & Live-capture; Subsistence harvest
 with( serology, table( pdv24, useNA = "ifany" ) )         # 222 NA; 0/1
 with( serology, table( pdv32, useNA = "ifany" ) )         # 222 NA; 0/1
 with( serology, table( pdv64, useNA = "ifany" ) )         # 222 NA; 0/1
@@ -141,17 +167,17 @@ serology$Date <- plyr::mapvalues( x = serology$Date,
                                   from = date.key, 
                                   to = names( date.key ) )
 # Unfortunately, this locks all Month-Year "dates" to the 1st of the month, and all Year-only "dates" to Jan 1st.
-serology$lubriDate <- parse_date_time( x = serology$Date, 
-                                       orders = c( "mdy", "Y", "Ymd", "mdY", "bY", "BY" ) )
+serology$raw.date <- parse_date_time( x = serology$Date, 
+                                      orders = c( "mdy", "Y", "Ymd", "mdY", "bY", "BY" ) )
 
 # There are 4 Date-Year mismatches; I strongly suspect the year in "Year" is correct.
-yrInds <- which( year( serology$lubriDate ) != serology$Year )           # Find them.
-year( serology$lubriDate[ yrInds ] ) <- serology$Year[ yrInds ]          # Correct them.
+yrInds <- which( year( serology$raw.date ) != serology$Year )           # Find them.
+year( serology$raw.date[ yrInds ] ) <- serology$Year[ yrInds ]          # Correct them.
 
 # Now create separate columns for Year, Month, and Day (if available).
-serology$Year <- year( serology$lubriDate )
-serology$Month <- month( serology$lubriDate )
-serology$Day <- mday( serology$lubriDate )
+serology$Year <- year( serology$raw.date )
+serology$Month <- month( serology$raw.date )
+serology$Day <- mday( serology$raw.date )
 
 # BUT, some of those dates didn't actually have months or days (see comment above). We need to take care of that.
 noDay <- which( !grepl( pattern = "\\/|-", x = serology$Date ) )        # Those without a day term are missing delimiters (i.e., / or -).
@@ -188,11 +214,11 @@ serology$Age <- plyr::mapvalues( x = serology$Age,
 
 # with( serology, table( Age, Age_months, useNA = "ifany" ) )                # Check to be sure age categorizations are in agreement.
 
-# Homogenize type labels.
-type.key <- c( "Dead" = "Dead", "Live" = "live capture", "Live" = "Live capture", "Live" = "Live captured", "Live" = "Live-capture", "Subsistence harvest" = "Subsistence harvest" )
-serology$Type <- plyr::mapvalues( x = serology$Type, 
-                                  from = type.key, 
-                                  to = names( type.key ) )
+# Homogenize disposition labels.
+disposition.key <- c( "Dead" = "Dead", "Live" = "live capture", "Live" = "Live capture", "Live" = "Live captured", "Live" = "Live-capture", "Subsistence harvest" = "Subsistence harvest" )
+serology$Disposition <- plyr::mapvalues( x = serology$Disposition, 
+                                         from = disposition.key, 
+                                         to = names( disposition.key ) )
 
 # Create a new column specifying the species group.
 ice.seals <- c( "Bearded seal", "Ribbon seal", "Ringed seal", "Spotted seal" )
@@ -425,8 +451,8 @@ serology$Recapture <- 0    # Create a new column (used by deDuplicator if .type=
 
 # deDuplicate!
 serology <- deDuplicator( serology, "ID", trueDups, .type = "duplicate" )                                                   # Remove duplicate entries.
-serology <- deDuplicator( serology, "ID", recaps, .type = "recurrence", recur.col = "Recapture", seq.col = "lubriDate" )    # Indicate recaptures.
-serology <- deDuplicator( serology, "ID", dblIds, .type = "double", seq.col = "lubriDate" )                                 # Clarify doubly-used identifiers.
+serology <- deDuplicator( serology, "ID", recaps, .type = "recurrence", recur.col = "Recapture", seq.col = "raw.date" )     # Indicate recaptures.
+serology <- deDuplicator( serology, "ID", dblIds, .type = "double", seq.col = "raw.date" )                                  # Clarify doubly-used identifiers.
 
 # # Check:
 # ids <- with( serology, data.frame( table( ID, useNA = "ifany" ) ) )
@@ -434,6 +460,12 @@ serology <- deDuplicator( serology, "ID", dblIds, .type = "double", seq.col = "l
 # dups <- serology[ which( serology$ID %in% dupIDs ), ]                # The only duplicates are (correctly-indicated) recaptures...
 # nrow( serology )                                                     # There are now 7 fewer entries...
 # sum( serology$Recapture )                                            # Only 3 recapture events.
+
+```
+
+```{r writeR}
+
+write.csv( serology, file = "data/pdv_serology.csv", row.names = FALSE )
 
 ```
 
@@ -453,11 +485,11 @@ loc.table <- data.frame( with( serology, table( Location, Year, useNA = "ifany" 
 pdv.table <- serology %>%                                                                                  # From the serology data,
   filter( PDV_Toxic != 1,                                                                                  # filter out toxic titer observations
           !is.na( PDV.Master_Titer ) ) %>%                                                                 # and those without PDV titers.
-  mutate( Type = plyr::mapvalues( Type, "Subsistence harvest", "Live" ) ) %>%                              # Group the live and harvested samples together.
+  mutate( Disposition = plyr::mapvalues( Disposition, "Subsistence harvest", "Live" ) ) %>%                # Group the live and harvested samples together.
   group_by( Group,                                                                                         # Summaries will be generated by group (species, except ice seals)
-            Type ) %>% 
+            Disposition ) %>% 
   summarize( NTested = n() ) %>%                                                                           # Calculate the number of tests for each group.
-  spread( key = Type,                                                                                      # Transition to wider format.
+  spread( key = Disposition,                                                                               # Transition to wider format.
           value = NTested ) %>% 
   ungroup() %>% 
   mutate( Dead = plyr::mapvalues( Dead, NA, 0 ),                                                           # Replace 'NA' values with 0s.
@@ -470,11 +502,11 @@ pdv.table <- serology %>%                                                       
 cdv.table <- serology %>% 
   filter( CDV_Toxic != 1,
           !is.na( CDV_Titer ) ) %>% 
-  mutate( Type = plyr::mapvalues( Type, "Subsistence harvest", "Live" ) ) %>% 
+  mutate( Disposition = plyr::mapvalues( Disposition, "Subsistence harvest", "Live" ) ) %>% 
   group_by( Group, 
-            Type ) %>% 
+            Disposition ) %>% 
   summarize( NTested = n() ) %>% 
-  spread( key = Type, 
+  spread( key = Disposition, 
           value = NTested ) %>% 
   ungroup() %>% 
   mutate( Live = plyr::mapvalues( Live, NA, 0 ) ) %>% 
@@ -486,11 +518,11 @@ cdv.table <- serology %>%
 pmv.table <- serology %>% 
   filter( PMV_Toxic != 1, 
           !is.na( PMV_Titer ) ) %>% 
-  mutate( Type = plyr::mapvalues( Type, "Subsistence harvest", "Live" ) ) %>% 
+  mutate( Disposition = plyr::mapvalues( Disposition, "Subsistence harvest", "Live" ) ) %>% 
   group_by( Group, 
-            Type ) %>% 
+            Disposition ) %>% 
   summarize( NTested = n() ) %>% 
-  spread( key = Type, 
+  spread( key = Disposition, 
           value = NTested ) %>% 
   ungroup() %>% 
   mutate( Live = plyr::mapvalues( Live, NA, 0 ) ) %>% 
@@ -502,11 +534,11 @@ pmv.table <- serology %>%
 dmv.table <- serology %>% 
   filter( DMV_Toxic != 1, 
           !is.na( DMV_Titer ) ) %>% 
-  mutate( Type = plyr::mapvalues( Type, "Subsistence harvest", "Live" ) ) %>% 
+  mutate( Disposition = plyr::mapvalues( Disposition, "Subsistence harvest", "Live" ) ) %>% 
   group_by( Group, 
-            Type ) %>% 
+            Disposition ) %>% 
   summarize( NTested = n() ) %>% 
-  spread( key = Type, 
+  spread( key = Disposition, 
           value = NTested ) %>% 
   ungroup() %>% 
   mutate( Live = plyr::mapvalues( Live, NA, 0 ) ) %>% 
@@ -516,6 +548,7 @@ dmv.table <- serology %>%
              by = "Group" )
 
 ```
+
 
 ###**N O T E S** {#notes}
 
@@ -546,3 +579,7 @@ Using the following methods:
 * True duplicates: removed cases (_i.e._, rows) with more NA values
 * Recaptures: Preserved all rows; indicated recurrences with a `1` in `Recapture` column
 * Doubly-assigned IDs: appended `a, b, c, ...` to each ID
+
+-----
+
+The column `raw.date` is not always accurate. Not all samples had complete dates. When only month and year are given, `lubridate` assigns mday = 1. When only year is given, `lubridate` assigns yday = 1 (*i.e.*, mday = 1 & month = 1). This is corrected in the `Month` and `Day` columns (if no day is given, `Day <- NA`; if no month is given, both `Day <- NA` and `Month <- NA`), but `raw.date` is preserved for pinch comparisons (as in comparing recurrent events with the deDuplicator).
