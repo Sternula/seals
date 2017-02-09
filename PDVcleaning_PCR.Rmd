@@ -38,8 +38,70 @@ nfs_goldstein <- read.xls( xls = "data/RAW/11-22-16_NFS swabs 2012-2015 for Gold
                            na.strings = c( "" ),
                            stringsAsFactors = FALSE ) %>%
   filter( !is.na( SampleLabel ) ) %>%
-  rename( Harvest = Harvest.,
-          Box = Box. )
+  rename( Disposition = Harvest.,
+          Box = Box. ) %>% 
+  mutate( Disposition = plyr::mapvalues( Disposition, "Y", "Subsistence harvest" ), 
+          Source = "nfs_goldstein" )
+
+### NMML Stellar sea lion swabs:
+# gel...
+ssl_goldstein.gel <- read.xls( xls = "data/RAW/12-8-16_SSL swabs 2012-2015 for Goldstein_UCD.xlsx", 
+                               sheet = "Sheet1", 
+                               method = "csv", 
+                               na.strings = c( "" ), 
+                               stringsAsFactors = FALSE ) %>% 
+  filter( !is.na( SampleLabel ) ) %>% 
+  rename( Box = Box. )
+# ...and PCR.
+ssl_goldstein.pcr <- read.xls( xls = "data/RAW/12-8-16_SSL swabs 2012-2015 for Goldstein_UCD.xlsx", 
+                               sheet = "UCD Testing", 
+                               method = "csv", 
+                               na.strings = c( "" ), 
+                               stringsAsFactors = FALSE )
+# Merge the SSL results:
+
+# ssl_goldstein <- left_join( x = ssl_goldstein.gel, 
+#                             y = ssl_goldstein.pcr, 
+#                             by = c( "SampleLabel" ) )
+# 
+# # Test to make sure all columns with the same name are actually duplicates.
+# ssl_goldstein.test <- ssl_goldstein %>% 
+#   rename( BrandTag.x = Brand.Tag.x, 
+#           BrandTag.y = Brand.Tag.y, 
+#           QuantVol.x = Quant.Vol.x, 
+#           QuantVol.y = Quant.Vol.y ) %>% 
+#   gather( key = var.l, 
+#           value = value, 
+#           ends_with( ".y" ), ends_with( ".x" ) ) %>% 
+#   separate( col = var.l, into = c( "var", "l" ), "\\." ) %>% 
+#   spread( l, value )
+# 
+# ssl_goldstein.test[ with( ssl_goldstein.test, which( x != y ) ), ] # one record has a different comment; the PCR file adds 'relabeled as AGP SAM' to the comment on the record for AGP SAM
+
+# Now actually merge them:
+ssl_goldstein <- left_join( x = ssl_goldstein.gel, 
+                            y = ssl_goldstein.pcr, 
+                            by = c( "Species", "SampleLabel", "Brand.Tag", "UID", "Island", "Month", "Day", "Year", "Sex", "Age", "Collector", "Comments", "SampleType", "SampleSubtype", "SampleTypeComments", "Quant.Vol", "Status", "TransferRecipient", "TransferDate" ) ) %>% 
+  mutate( Source = "ssl_goldstein", 
+          UID = as.character( UID ) ) # to permit  joining with UID of nfs_goldstein
+
+# Now join the two NMML swab datasets:
+nmml_goldstein <- bind_rows( nfs_goldstein, ssl_goldstein ) %>% 
+  select( -c( Brand.Tag, SampleType ) ) %>% 
+  rename( ID = SampleLabel, 
+          Location = Island, 
+          Sublocation = Rookery, 
+          Age.class = Age, 
+          Type = SampleSubtype, 
+          Comments_Sample = SampleTypeComments, 
+          Quantity = Quant.Vol, 
+          PMV_PCR = Pan.morbillivirus.PCR, 
+          PDV_PCR = PDV.PCR, 
+          CDV_PCR = CDV.PCR, 
+          Gel_results = UCD.gel.results, 
+          Recipient_Transfer = TransferRecipient, 
+          Date_Transfer = TransferDate, 
+          Comments_Transfer = TransferComments )
 
 ### NMML pan morbillivirus records from records: 
 # NFS from St. Paul Island (2011)...
@@ -144,30 +206,67 @@ nmml.pmv <- bind_rows( nfs.pmv_st.paul_2011 = nfs.pmv_st.paul_2011,
                        ssl.pmv_chirikof.marmot = ssl.pmv_chirikof.marmot, 
                        ssl.pmv_medney.koslov = ssl.pmv_medney.koslov, 
                        ssl.pmv_yamsky = ssl.pmv_yamsky, 
-                       .id = "Source" )
+                       .id = "Source" ) %>% 
+  rename( ID = Animal.ID, 
+          Date = Collection.Date, 
+          Age.class = Age, 
+          Type = Sample.Type, 
+          PMV_PCR = Pan..Morbillivirus.PCR )
 
 ### NMML polar ice seal data from Oct. 2015
 # Ice seals...
-ak.ice.seals <- read.xls( xls = "data/RAW/UCD 2014 NMML Polar results October 2015.xls", 
-                          sheet = "AK Ice Seals", 
-                          skip = 1, 
-                          method = "csv", 
-                          na.strings = c( "NA", "" ), 
-                          stringsAsFactors = FALSE ) %>% 
+ak.ice.seals_2015 <- read.xls( xls = "data/RAW/UCD 2014 NMML Polar results October 2015.xls", 
+                               sheet = "AK Ice Seals", 
+                               skip = 1, 
+                               method = "csv", 
+                               na.strings = c( "NA", "" ), 
+                               stringsAsFactors = FALSE ) %>% 
   filter( !grepl( pattern = "nucleic acid", x = Animal.ID ) )
 
 # ...and harbor seals.
-ak.harbor.seals <- read.xls( xls = "data/RAW/UCD 2014 NMML Polar results October 2015.xls", 
-                          sheet = "AK Harbor Seals", 
-                          skip = 1, 
-                          method = "csv", 
-                          na.strings = c( "NA", "" ), 
-                          stringsAsFactors = FALSE ) %>% 
+ak.harbor.seals_2015 <- read.xls( xls = "data/RAW/UCD 2014 NMML Polar results October 2015.xls", 
+                                  sheet = "AK Harbor Seals", 
+                                  skip = 1, 
+                                  method = "csv", 
+                                  na.strings = c( "NA", "" ), 
+                                  stringsAsFactors = FALSE ) %>% 
   filter( !grepl( pattern = "nucleic acid", x = Animal.ID ) ) %>% 
   mutate( species = "harbor" )
 
+### And from 2016: ice seals...
+ak.ice.seals_2016 <- read.xls( xls = "data/RAW/UCD NMML Polar Ice seal Results 2016.xlsx", 
+                               sheet = "AK Ice seals 2016", 
+                               method = "csv", 
+                               na.strings = c( "NA", "" ), 
+                               stringsAsFactors = FALSE ) %>% 
+  filter( !grepl( pattern = "nucleic acid", x = SPENO ) ) %>% 
+  mutate( species = "ice" ) %>% # to permit joining with Collection.Date of 2015 data
+  rename( Animal.ID = SPENO, 
+          Year = Collection.Year )
+
+# ...and harbor seals.
+ak.harbor.seals_2016 <- read.xls( xls = "data/RAW/UCD NMML Polar Ice seal Results 2016.xlsx", 
+                                  sheet = "AK Harbor seals 2015, 2016", 
+                                  method = "csv", 
+                                  na.strings = c( "NA", "" ), 
+                                  stringsAsFactors = FALSE ) %>% 
+  filter( !grepl( pattern = "nucleic acid", x = SPENO ) ) %>% 
+  mutate( species = "harbor" ) %>% # to permit joining with Collection.Date of 2015 data
+  rename( Animal.ID = SPENO, 
+          Year = Collection.Year )
+
 # Join 'em...(because you can't beat 'em).
-nmml.flu_pmv <- bind_rows( ak.ice.seals, ak.harbor.seals )
+nmml.flu_pmv <- bind_rows( ak.ice.seals_2015 = ak.ice.seals_2015, 
+                           ak.harbor.seals_2015 = ak.harbor.seals_2015, 
+                           ak.ice.seals_2016 = ak.ice.seals_2016, 
+                           ak.harbor.seals_2016 = ak.harbor.seals_2016, 
+                           .id = "Source" ) %>% 
+  rename( ID = Animal.ID, 
+          Date = Collection.Date, 
+          Type = Sample.Type, 
+          Flu_PCR = Influenza.PCR, 
+          PMV_PCR = Morbillivirus.PCR, 
+          Species = species )
 
 ### Combined PCR/serologic results
 spp_liz_serology <- read.xls( xls = "data/RAW/PCR data for Liz-revised MAY2014.xls", 
@@ -175,15 +274,16 @@ spp_liz_serology <- read.xls( xls = "data/RAW/PCR data for Liz-revised MAY2014.x
                               method = "csv", 
                               na.strings = c( "NA", "" ), 
                               stringsAsFactors = FALSE ) %>% 
-  dplyr::select( -starts_with( "X" ) ) %>% 
-  rename( SampleNo = Sample.No., 
+  dplyr::select( -starts_with( "X" ), 
+                 -Animal.SN.Result ) %>% 
+  rename( ID = Sample.No., 
           Date = Sample.date, 
           Year = Sample.year, 
           Age = Actual.Age, 
-          SN_Result = Animal.SN.Result, 
-          UB.PDV.SN_USA.2006 = UB.PDV.SN.USA2006, 
-          PDV.SN_20 = PDV.SN.result...20., 
-          PDV.SN_30 = PDV.Sn.result...30. )
+          PDV_USA.2006 = UB.PDV.SN.USA2006, 
+          pdv20 = PDV.SN.result...20., 
+          pdv30 = PDV.Sn.result...30. ) %>% 
+  mutate( Source = "spp_liz_serology" )
 
 spp_liz_pcr.xls <- read.xls( xls = "data/RAW/PCR data for Liz-revised MAY2014.xls", 
                              sheet = "All PCR", 
@@ -191,69 +291,32 @@ spp_liz_pcr.xls <- read.xls( xls = "data/RAW/PCR data for Liz-revised MAY2014.xl
                              na.strings = c( "NA", "" ), 
                              stringsAsFactors = FALSE ) %>% 
   dplyr::select( -starts_with( "X" ) ) %>% 
-  rename( SampleNo = Sample.No., 
+  rename( ID = Sample.No., 
           Date = Sample.date, 
           Year = Sample.year, 
           Age = Actual.Age, 
-          PCR_Result = Animal.PCR.Result, 
-          PDV_Titer = Serology.titer )
+          PDV_PCR = Animal.PCR.Result, 
+          PDV_Titer = Serology.titer ) %>% 
+  mutate( Source = "spp_liz_pcr.xls" )
 
-spp_liz_pcr.csv <- read.csv( file = "data/RAW/PDVpcrdata.csv", 
-                             stringsAsFactors = FALSE ) %>% 
-  rename( SampleNo = Sample.No., 
-          Date = Sample.date, 
-          Year = Sample.year, 
-          Age = Actual.Age, 
-          PCR_Result = Animal.PCR.Result, 
-          PCR_Category = Pcr.cat, 
-          PDV_Titer = Serology.titer, 
-          pdv32 = sero.32 )
+# spp_liz_pcr.csv <- read.csv( file = "data/RAW/PDVpcrdata.csv", 
+#                              stringsAsFactors = FALSE ) %>% 
+#   rename( SampleNo = Sample.No., 
+#           Date = Sample.date, 
+#           Year = Sample.year, 
+#           Age = Actual.Age, 
+#           PCR_Result = Animal.PCR.Result, 
+#           PCR_Category = Pcr.cat, 
+#           PDV_Titer = Serology.titer, 
+#           pdv32 = sero.32 )
 
-#                              
-# nfs_goldstein
-# nfs.pmv_st.paul_2011
-# nfs.pmv_st.paul_2012
-# nfs.pmv_st.george
-# nfs.pmv_san.miguel
-# ssl.pmv_rogue.reef
-# ssl.pmv_aggattu.ugamak.bogos
-# ssl.pmv_aggattu.ulak.bogos
-# ssl.pmv_chirikof.marmot
-# ssl.pmv_medney.koslov
-# ssl.pmv_yamsky
-# ak.ice.seals
-# ak.harbor.seals
-# spp_liz_serology
-# spp_liz_pcr.xls
-# spp_liz_pcr.csv
+### Now join all datasets into a PCR master data.frame:
+pcr.master <- bind_rows( nmml_goldstein, nmml.flu_pmv, spp_liz_serology, spp_liz_pcr.xls ) %>% 
+  select( ID, UID, Species, Date, Year, Month, Day, Sublocation, Location, Region, Latitude, Longitude, Sex, Age.class, Age, Disposition, Collector, Type, Quantity, PMV_PCR, CDV_PCR, Flu_PCR, PDV_PCR, PDV_Titer, PDV_USA.2006, pdv20, pdv30, Sequence, Gel_results, Storage, Shelf, Rack, Box, Row, Column, Status, Recipient_Transfer, Date_Transfer, Comments, Comments_Sample, Comments_Transfer, Source )
 
 ```
 
-```{r}
-
-dfs <- list( nfs_goldstein,
-             nfs.pmv_st.paul_2011,
-             nfs.pmv_st.paul_2012,
-             nfs.pmv_st.george,
-             nfs.pmv_san.miguel,
-             ssl.pmv_rogue.reef,
-             ssl.pmv_aggattu.ugamak.bogos,
-             ssl.pmv_aggattu.ulak.bogos,
-             ssl.pmv_chirikof.marmot,
-             ssl.pmv_medney.koslov,
-             ssl.pmv_yamsky,
-             ak.ice.seals,
-             ak.harbor.seals,
-             spp_liz_serology,
-             spp_liz_pcr.xls,
-             spp_liz_pcr.csv )
-
-lapply( dfs, names )
-
-```
-
-
-```{r compaRe}
+```{r compaRe, eval = FALSE, include = FALSE}
 
 ## Compare spp_liz_pcr.xls with spp_liz_pcr.csv
 
@@ -294,6 +357,79 @@ misReg <- data.frame( pcr = spp_liz_pcr.xls$Region[ mismatches$Region ],
 misPCR <- data.frame( pcr = spp_liz_pcr.xls$PCR_Result[ mismatches$PCR_Result ], 
                       csv = spp_liz_pcr.csv$PCR_Result[ mismatches$PCR_Result ], 
                       stringsAsFactors = FALSE )                                            # PCR Suspect positive == CSV Suspect Positive
+
+```
+
+```{r localizeR, eval = FALSE, include = FALSE}
+
+sero.locations <- read.csv( "data/locations.csv" )
+
+region <- data.frame( Name = sort( unique( pcr.master$Region ) ), 
+                      orig.column = "Region", 
+                      stringsAsFactors = FALSE )
+location <- data.frame( Name = sort( unique( pcr.master$Location ) ), 
+                        orig.column = "Location OR Island", 
+                        stringsAsFactors = FALSE )
+sublocation <- pcr.master %>% 
+  select( Sublocation, Location ) %>% 
+  filter( !is.na( Sublocation ) ) %>% 
+  distinct() %>% 
+  mutate( Name = paste( Sublocation, " (", Location, ")", sep = "" ), 
+          orig.column = "Rookery (Location)" ) %>% 
+  select( Name, orig.column )
+
+allLocs <- bind_rows( region, location, sublocation, sero.locations ) %>% 
+  distinct( Name ) %>% 
+  arrange( Name )
+
+write.csv( allLocs, "data/all.locations.csv", row.names = FALSE )
+
+```
+
+```{r exploRe, eval = FALSE, include = FALSE}
+
+with( pcr.master, table( ID, useNA = "ifany" ) )                               # 0 NA; 1433 IDs occur 1x, 527 occur 2x, 1 occurs 3x, 1 occurs 4x
+with( pcr.master, table( UID, useNA = "ifany" ) )                              # 2121 NA; 89 UIDs occur 1x, 142 occur 2x
+with( pcr.master, table( Species, useNA = "ifany" ) )                          # 0 NA; bearded = Bearded seal, harbor = Harbour seal, Northern fur seal = NORTHERN FUR SEAL, Northern sea otter = Nothern sea otter, ribbon = Ribbon seal, spotted = Spotted seal, Stellar sea lion = STELLAR SEA LION, ice (Ice seal), Polar bear, Walrus
+with( pcr.master, table( Date, useNA = "ifany" ) )                             # 492 NA; Formats: m/d/y, Y-m-d, B Y, b. Y, b Y, m/d/Y - m/d/Y, "FW07002" (occurs 1x, ==ID)
+with( pcr.master, table( Year, useNA = "ifany" ) )                             # 43 NA; 1977, 1985, 1997, 2002--16
+with( pcr.master, table( Month, useNA = "ifany" ) )                            # 2002 NA; 6--10
+with( pcr.master, table( Day, useNA = "ifany" ) )                              # 2002 NA; 1--2, 4--7, 9, 12--13, 17, 23--24, 26, 29--31
+with( pcr.master, table( Sublocation, useNA = "ifany" ) )                      # 2306 NA; NORTH, SOUTH, EAST, POLOVINA CLIFFS, ZAPADNI, ZAPADNI REEF
+with( pcr.master, table( Location, useNA = "ifany" ) )                         # 149 NA
+with( pcr.master, table( Region, useNA = "ifany" ) )                           # 2092 NA; C ALEU; C GULF; E ALEU; E GULF; SC; SE; SEA; SW; W ALEU; W GULF
+with( pcr.master, table( Latitude, useNA = "ifany" ) )                         # 1339 NA
+with( pcr.master, table( Longitude, useNA = "ifany" ) )                        # 1339 NA
+with( pcr.master, table( Sex, useNA = "ifany" ) )                              # 300 NA; F == Female, M == Male, Unknown
+with( pcr.master, table( Age.class, useNA = "ifany" ) )                        # 147 NA; Fetus, Dependant cub, P == Pup, YOY, Yearling, J == Juvenile, SA == 'Subadult ' == Subadult, A == Adult, Cape Ugat Haulout, Kodiak, AK
+with( pcr.master, table( Age, useNA = "ifany" ) )                              # 2276 NA; -, <#, #+, # or #, C1, C2, Fetus, Large Bull, Pup, Pup or 1
+with( pcr.master, table( Disposition, useNA = "ifany" ) )                      # 539 NA; Dead, Live capture == Live captured == Live-capture == Live-captured, Subsistence harvest
+with( pcr.master, table( Collector, useNA = "ifany" ) )                        # 2002 NA; NMML
+with( pcr.master, table( Type, useNA = "ifany" ) )                             # 1855 NA; Nasal swab == Nasal Swab == NASAL SWAB, Rectal swab
+with( pcr.master, table( Quantity, useNA = "ifany" ) )                         # 2290 NA; 1, 2
+with( pcr.master, table( PMV_PCR, useNA = "ifany" ) )                          # 2154 NA; Inconclusive == Negative, Positive
+with( pcr.master, table( CDV_PCR, useNA = "ifany" ) )                          # 2301 NA; Negative, Positive
+with( pcr.master, table( Flu_PCR, useNA = "ifany" ) )                          # 2347 NA; Inconclusive == Negative
+with( pcr.master, table( PDV_PCR, useNA = "ifany" ) )                          # 1143 NA; Inconclusive == Suspect positive == Suspect Positive == Negative, TG ADD, Positive
+with( pcr.master, table( PDV_Titer, useNA = "ifany" ) )                        # 2173 NA; <#, > #, #
+with( pcr.master, table( PDV_USA.2006, useNA = "ifany" ) )                     # 1797 NA; <#, <#T, > #, #T, #, unable to read T
+with( pcr.master, table( pdv20, useNA = "ifany" ) )                            # 1797 NA; 0/1
+with( pcr.master, table( pdv30, useNA = "ifany" ) )                            # 1797 NA; 0/1
+with( pcr.master, table( Sequence, useNA = "ifany" ) )                         # 2494 NA
+with( pcr.master, table( Gel_results, useNA = "ifany" ) )                      # 2461 NA; Band cut and cloned, 'Not correct size, not cut'
+with( pcr.master, table( Storage, useNA = "ifany" ) )                          # 2002 NA; Freezer #2 (AEP/PEP -80), Freezer #4 (AEP -80)
+with( pcr.master, table( Shelf, useNA = "ifany" ) )                            # 2002 NA; 4, 5
+with( pcr.master, table( Rack, useNA = "ifany" ) )                             # 2002 NA; 1--4
+with( pcr.master, table( Box, useNA = "ifany" ) )                              # 2002 NA; 17, 20, 22, 32, 35, 47--50, 53--54, 183
+with( pcr.master, table( Row, useNA = "ifany" ) )                              # 2002 NA; A--I
+with( pcr.master, table( Column, useNA = "ifany" ) )                           # 2002 NA; 1--9
+with( pcr.master, table( Status, useNA = "ifany" ) )                           # 2002 NA; TRANSFERRED
+with( pcr.master, table( Recipient_Transfer, useNA = "ifany" ) )               # 2002 NA; UC Davis/Tracey Goldstein
+with( pcr.master, table( Date_Transfer, useNA = "ifany" ) )                    # 2002 NA; 2016-06-16
+with( pcr.master, table( Comments, useNA = "ifany" ) )                         # 2433 NA; ~157 crossed out on label, ~157 not applied, relabeled as AGP SAM, Don't know if this is from 10/4 or 10/6, UID on label is incorrect
+with( pcr.master, table( Comments_Sample, useNA = "ifany" ) )                  # 2320 NA; 'DRY SWAB; Calici', 'DRY SWAB; PDV'
+with( pcr.master, table( Comments_Transfer, useNA = "ifany" ) )                # 2494 NA
+with( pcr.master, table( Source, useNA = "ifany" ) )                           # 
 
 ```
 

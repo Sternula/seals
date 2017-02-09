@@ -110,26 +110,28 @@ serology <- full_join( x = seals,
 
 sCapSite <- data.frame( Name = sort( unique(seals$Location) ), 
                         source = "seals", 
-                        type = "CaptureSite", 
+                        orig.column = "CaptureSite", 
                         stringsAsFactors = FALSE )
 sRegion <- data.frame( Name = sort( unique(seals$Area) ), 
                        source = "seals", 
-                       type = "Region", 
+                       orig.column = "Region", 
                        stringsAsFactors = FALSE )
 sBRegion <- data.frame( Name = sort( unique(seals$Region) ), 
                         source = "seals", 
-                        type = "BroadRegion", 
+                        orig.column = "BroadRegion", 
                         stringsAsFactors = FALSE )
 oColLoc <- data.frame( Name = sort( unique(otters$Location) ), 
                        source = "otters", 
-                       type = "capture location OR Collec location", 
+                       orig.column = "capture location OR Collec location", 
                        stringsAsFactors = FALSE )
 oArea <- data.frame( Name = sort( unique(otters$Area) ), 
                      source = "otters", 
-                     type = "area", 
+                     orig.column = "area", 
                      stringsAsFactors = FALSE )
 
 allLocs <- bind_rows( sCapSite, sRegion, sBRegion, oColLoc, oArea ) %>% arrange( Name )
+
+# write.csv( allLocs, file = "data/locations.csv", row.names = FALSE )
 
 ```
 
