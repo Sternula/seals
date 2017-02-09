@@ -1,176 +1,737 @@
-"Name"
-"Adak"
-"Adak Is"
-"Adugak"
-"ADUGAK"
-"AGATTU/CAPE SABAK"
-"AGATTU/GILLON POINT"
-"Akun Island"
-"AKUN/BILLINGS HEAD"
-"Akutan Is, Cape Morgan"
-"AKUTAN/CAPE MORGAN"
-"Alaska"
-"Aleutians"
-"Amak"
-"Amchitka"
-"Amlia Is"
-"ATKINS"
-"Attu"
-"Back off Saginaw Bay"
-"Barrow, AK"
-"BENJAMIN"
-"Benjamin Is"
-"Benjamin Island"
-"Bering Sea"
-"Between Saginaw and Security Bays"
-"Biali Rks"
-"BOGOSLOF"
-"BOGOSLOF/FIRE ISLAND"
-"C ALEU"
-"C GULF"
-"CA"
-"California"
-"Cape Ugat Haulout, Kodiak, AK"
-"Central Kachemak Bay"
-"Chignik Lagoon"
-"chiniak"
-"CHOWIET"
-"Chukchi Sea"
-"CLUBBING ROCKS SOUTH"
-"Cohen Island"
-"Cold Bay"
-"Cordova"
-"deranof"
-"E ALEU"
-"E GULF"
-"Ealeut"
-"EAST (ST GEORGE)"
-"East of Mud Bay"
-"EKOD"
-"Fox Island, Seward"
-"Gambell"
-"Glacier Bay Nat Park"
-"Glacier Is"
-"Glacier Is."
-"Glacier National Park"
-"Gran Point"
-"Gran Pt"
-"Gran Rock, Glacier Bay"
-"Grassy Reef, Keku Straight"
-"Graves Rock"
-"Gustavus"
-"Hazy Is"
-"Head of Saginaw Bay"
-"Homer"
-"Homer, AK"
-"IONY"
-"Juneau"
-"Kachemak Bay"
-"Kagalaska"
-"Kamishak Bay"
-"Kanaga Is, Ship Rk"
-"KASATOCHI/NORTH POINT"
-"Katmai National Park"
-"Keku Straight"
-"Keku Straight near Payne Island"
-"Kenai P."
-"KISKA/CAPE ST STEPHEN"
-"Kodiak"
-"Kodiak - EVOS area"
-"Kodiak, AK Cape Ugat Haulout"
-"Kotzebue"
-"Kotzebue, AK"
-"KOZLOVA CAPE"
-"Little Is"
-"Long"
-"Long Is, Kodiak"
-"Marmot"
-"MARMOT"
-"MEDNY"
-"Monolith Keku Straight"
-"Mouth of Security Bay"
-"NAFOG"
-"ne afognak"
-"Neptune Bay"
-"Neptune Point"
-"Ninilchik"
-"NKOD"
-"NORTH (ST GEORGE)"
-"North Rocks"
-"nw afognak"
-"Payne Island"
-"Perry Is"
-"Perry Island"
-"PINNACLE ROCK"
-"Point Hope"
-"POLOVINA CLIFFS (ST PAUL)"
-"PWS"
-"RU"
-"Russia"
-"s afognak"
-"S. Marble Is"
-"SAIL I."
-"San Miguel Is"
-"Savoonga"
-"SC"
-"SE"
-"SE?"
-"SEA"
-"SEA LION ROCK (AMAK)"
-"Sea otter"
-"Sea Otter Is"
-"Sea otter Island"
-"Seal Rocks"
-"SEAL ROCKS"
-"Seguam"
-"Seguam Is"
-"SEGUAM/SADDLERIDGE"
-"Seldovia"
-"Seldovia Bay"
-"Semisopochnoi"
-"Seward"
-"Shemya"
-"Shishmaref, AK"
-"Silak Is"
-"Sitka"
-"SOUTH (ST GEORGE)"
-"South Marble Island"
-"South Naknek"
-"South of Point Cornwallis"
-"Southern Beaufort Sea near Barrow"
-"Southwest Brothers Is"
-"ST GEORGE"
-"St George Is"
-"ST PAUL"
-"St Paul Is"
-"St. George Is"
-"St. Paul Is"
-"Sugarloaf"
-"SUGARLOAF"
-"Sunset Island"
-"Sunset Pt/Is"
-"SW"
-"SW Brothers"
-"SW BROTHERS I."
-"sw shuyak"
-"Tanaga"
-"The Needle"
-"Trinity Islands"
-"UGAMAK/NORTH"
-"UGAMAK/UGAMAK BAY"
-"Uganik Bay, AK"
-"ULAK/HASGOX POINT"
-"Unalaska"
-"W ALEU"
-"W GULF"
-"w kodiak"
-"West Brothers & Pass"
-"White Sisters"
-"Whittier"
-"WKOD"
-"WOODED (FISH)"
-"YAMSKY"
-"Yanuska"
-"YUNASKA"
-"ZAPADNI (ST GEORGE)"
-"ZAPADNI REEF (ST PAUL)"
+"Sublocation","Location","Area","Region","Latitude","Longitude"
+NA,"Glacier Is","E GULF","Alaska",NA,NA
+NA,"Little Is","SEA","Alaska",NA,NA
+NA,"Southwest Brothers Is","SEA","Alaska",NA,NA
+NA,"Seguam Is","C ALEU","Alaska",NA,NA
+NA,"Silak Is","C ALEU","Alaska",NA,NA
+NA,"Tanaga","C ALEU","Alaska",NA,NA
+NA,"YUNASKA","C ALEU","Alaska",52.69,-170.6058
+NA,"Adak Is","C ALEU","Alaska",NA,NA
+NA,"Kanaga Is, Ship Rk","C ALEU","Alaska",NA,NA
+NA,"KASATOCHI/NORTH POINT","C ALEU","Alaska",52.18516667,-175.5167
+NA,"KISKA/CAPE ST STEPHEN","C ALEU","Alaska",51.875,177.2117
+NA,"SEGUAM/SADDLERIDGE","C ALEU","Alaska",52.35083333,-172.5733
+NA,"ULAK/HASGOX POINT","C ALEU","Alaska",51.315,-178.9817
+NA,"ULAK/HASGOX POINT","C ALEU","Alaska",NA,NA
+NA,"Long Is, Kodiak","C GULF","Alaska",NA,NA
+NA,"Sea Otter Is","C GULF","Alaska",NA,NA
+NA,"CHOWIET","C GULF","Alaska",56.009,-156.6903
+NA,"Perry Is","C GULF","Alaska",NA,NA
+NA,"MARMOT","C GULF","Alaska",58.2275,-151.7958
+NA,"SUGARLOAF","C GULF","Alaska",58.8875,-152.04
+NA,"UGAMAK/NORTH","E ALEU","Alaska",54.225,-164.7917
+NA,"Amlia Is","E ALEU","Alaska",NA,NA
+NA,"UGAMAK/UGAMAK BAY","E ALEU","Alaska",54.2075,-164.7767
+NA,"AKUTAN/CAPE MORGAN","E ALEU","Alaska",54.05645,-165.9942
+NA,"ADUGAK","E ALEU","Alaska",52.91166667,-169.175
+NA,"AKUN/BILLINGS HEAD","E ALEU","Alaska",54.2936,-165.5343
+NA,"BOGOSLOF/FIRE ISLAND","E ALEU","Alaska",53.92821667,-168.0342
+NA,"SEA LION ROCK (AMAK)","E ALEU","Alaska",55.46366667,-163.2017
+NA,"BOGOSLOF/FIRE ISLAND","E ALEU","Alaska",NA,NA
+NA,"UGAMAK/NORTH","E ALEU","Alaska",NA,NA
+NA,"Perry Is","E GULF","Alaska",NA,NA
+NA,"The Needle","E GULF","Alaska",NA,NA
+NA,"SEAL ROCKS","E GULF","Alaska",60.163,-146.8383
+NA,"WOODED (FISH)","E GULF","Alaska",59.88166667,-147.3442
+NA,"WOODED (FISH)","E GULF","Alaska",59.8817,-147.3442
+NA,"KOZLOVA CAPE","RU","Russia",NA,NA
+NA,"MEDNY","RU","Russia",NA,NA
+NA,"IONY","RU","Russia",NA,NA
+NA,"YAMSKY","RU","Russia",NA,NA
+NA,"Hazy Is","SEA","Alaska",NA,NA
+NA,"White Sisters","SEA","Alaska",NA,NA
+NA,"Benjamin Is","SEA","Alaska",NA,NA
+NA,"Gran Pt","SEA","Alaska",NA,NA
+NA,"S. Marble Is","SEA","Alaska",NA,NA
+NA,"AGATTU/CAPE SABAK","W ALEU",NA,52.375,-173.7217
+NA,"AGATTU/GILLON POINT","W ALEU","Alaska",NA,NA
+NA,"CLUBBING ROCKS SOUTH","W GULF",NA,54.69958333,-162.4456
+NA,"ATKINS","W GULF",NA,55.055,-159.306
+NA,"PINNACLE ROCK","W GULF",NA,54.76758333,-161.7642
+NA,"Akutan Is, Cape Morgan","E ALEU","Alaska",NA,NA
+NA,"Biali Rks","SEA","Alaska",NA,NA
+NA,"Sunset Pt/Is","SEA","Alaska",NA,NA
+NA,"West Brothers & Pass","SEA","Alaska",NA,NA
+NA,"St Paul Is","SW","Alaska",57.1625,-170.1752
+NA,"San Miguel Is","CA","California",NA,NA
+NA,"St Paul Is","SW","Alaska",57.111,-170.302
+NA,"St George Is","SW","Alaska",55.4163,-169.6804
+NA,"St. George Is","SW","Alaska",55.4163,-169.6804
+NA,"St. Paul Is","SW","Alaska",57.111,-170.302
+NA,"St. Paul Is","SW","Alaska",57.1625,-170.1752
+NA,"Kotzebue",NA,"Alaska",66.3879,-162.4174
+NA,"Kotzebue",NA,"Alaska",66.5617,-162.6854
+NA,"Kotzebue",NA,"Alaska",66.611,-162.8948
+NA,"Bering Sea",NA,"Alaska",59.446,-174.732
+NA,"Bering Sea",NA,"Alaska",60.819,-171.1457
+NA,"Bering Sea",NA,"Alaska",60.8782,-171.1844
+NA,"Bering Sea",NA,"Alaska",60.4911,-171.6856
+NA,"Bering Sea",NA,"Alaska",60.9614,-173.4561
+NA,"Bering Sea",NA,"Alaska",60.9368,-173.4036
+NA,"Bering Sea",NA,"Alaska",61.1979,-174.1581
+NA,"Bering Sea",NA,"Alaska",61.9001,-174.6061
+NA,"Bering Sea",NA,"Alaska",61.3544,-174.5742
+NA,"Bering Sea",NA,"Alaska",61.3729,-174.6232
+NA,"Bering Sea",NA,"Alaska",61.3774,-174.2808
+NA,"Bering Sea",NA,"Alaska",61.3769,-174.282
+NA,"Bering Sea",NA,"Alaska",61.9955,-171.0622
+NA,"Bering Sea",NA,"Alaska",60.7825,-171.0702
+NA,"Bering Sea",NA,"Alaska",60.8415,-171.1535
+NA,"Bering Sea",NA,"Alaska",60.8822,-171.1979
+NA,"Bering Sea",NA,"Alaska",60.8755,-171.244
+NA,"Bering Sea",NA,"Alaska",60.5349,-171.7437
+NA,"Bering Sea",NA,"Alaska",60.9633,-173.497
+NA,"Bering Sea",NA,"Alaska",60.9488,-173.4078
+NA,"Bering Sea",NA,"Alaska",61.1898,-174.1343
+NA,"Bering Sea",NA,"Alaska",61.22,-174.2176
+NA,"Bering Sea",NA,"Alaska",61.9107,-174.5435
+NA,"Bering Sea",NA,"Alaska",61.8982,-174.586
+NA,"Bering Sea",NA,"Alaska",61.8869,-174.7062
+NA,"Bering Sea",NA,"Alaska",61.8433,-174.7448
+NA,"Bering Sea",NA,"Alaska",61.3367,-174.5452
+NA,"Bering Sea",NA,"Alaska",61.374,-174.3011
+NA,"Bering Sea",NA,"Alaska",61.3872,-174.2456
+NA,"Bering Sea",NA,"Alaska",61.9965,-171.0232
+NA,"Bering Sea",NA,"Alaska",61.9855,-171.0629
+NA,"Bering Sea",NA,"Alaska",59.5595,-175.5598
+NA,"Bering Sea",NA,"Alaska",59.3449,-177.597
+NA,"Bering Sea",NA,"Alaska",59.3967,-175.3852
+NA,"Bering Sea",NA,"Alaska",59.405,-175.43
+NA,"Bering Sea",NA,"Alaska",59.4294,-175.4549
+NA,"Bering Sea",NA,"Alaska",59.1301,-176.1786
+NA,"Bering Sea",NA,"Alaska",59.1537,-176.2052
+NA,"Bering Sea",NA,"Alaska",59.1402,-176.1994
+NA,"Bering Sea",NA,"Alaska",59.7464,-175.7048
+NA,"Bering Sea",NA,"Alaska",59.7207,-175.7755
+NA,"Bering Sea",NA,"Alaska",59.4448,-177.6599
+NA,"Bering Sea",NA,"Alaska",59.4476,-177.7058
+NA,"Bering Sea",NA,"Alaska",59.2552,-177.8837
+NA,"Bering Sea",NA,"Alaska",59.42,-175.4481
+NA,"Bering Sea",NA,"Alaska",59.424,-175.4518
+NA,"Bering Sea",NA,"Alaska",59.1074,-174.7229
+NA,"Bering Sea",NA,"Alaska",60.1953,-174.5588
+NA,"Bering Sea",NA,"Alaska",60.2074,-174.4914
+NA,"Bering Sea",NA,"Alaska",59.1914,-176.2042
+NA,"Bering Sea",NA,"Alaska",59.1324,-176.2068
+NA,"Bering Sea",NA,"Alaska",59.4082,-171.5855
+NA,"Bering Sea",NA,"Alaska",59.4185,-171.5406
+NA,"Bering Sea",NA,"Alaska",59.4295,-171.5571
+NA,"Bering Sea",NA,"Alaska",62.514,-175.0502
+NA,"Bering Sea",NA,"Alaska",62.4955,-175.0035
+NA,"Bering Sea",NA,"Alaska",60.7719,-171.0609
+NA,"Bering Sea",NA,"Alaska",60.8278,-171.2026
+NA,"Bering Sea",NA,"Alaska",60.8318,-171.1906
+NA,"Bering Sea",NA,"Alaska",60.8351,-171.1522
+NA,"Bering Sea",NA,"Alaska",61.2128,-174.199
+NA,"Bering Sea",NA,"Alaska",61.9049,-174.5579
+NA,"Bering Sea",NA,"Alaska",61.387,-174.2887
+NA,"Bering Sea",NA,"Alaska",59.4086,-171.584
+NA,"Bering Sea",NA,"Alaska",59.404,-171.5814
+NA,"Bering Sea",NA,"Alaska",61.1099,-173.9271
+NA,"Bering Sea",NA,"Alaska",62.28,-174.94
+NA,"Bering Sea",NA,"Alaska",62.479,-174.9813
+NA,"Bering Sea",NA,"Alaska",60.7657,-171.0303
+NA,"Bering Sea",NA,"Alaska",60.7737,-171.0649
+NA,"Bering Sea",NA,"Alaska",60.8379,-171.1122
+NA,"Bering Sea",NA,"Alaska",60.851,-171.0902
+NA,"Bering Sea",NA,"Alaska",60.8174,-171.0665
+NA,"Bering Sea",NA,"Alaska",60.5257,-171.6244
+NA,"Bering Sea",NA,"Alaska",60.5283,-171.7173
+NA,"Bering Sea",NA,"Alaska",61.4168,-174.5718
+NA,"Bering Sea",NA,"Alaska",61.3953,-174.3087
+NA,"Bering Sea",NA,"Alaska",62.0429,-170.9317
+NA,"Bering Sea",NA,"Alaska",62.0203,-170.9883
+NA,"Bering Sea",NA,"Alaska",59.7466,-175.7502
+NA,"Bering Sea",NA,"Alaska",59.7541,-175.7407
+NA,"Bering Sea",NA,"Alaska",59.4265,-177.6241
+NA,"Bering Sea",NA,"Alaska",59.1285,-176.1765
+NA,"Bering Sea",NA,"Alaska",59.1255,-176.2613
+NA,"Bering Sea",NA,"Alaska",59.7641,-175.6962
+NA,"Bering Sea",NA,"Alaska",59.4292,-177.6038
+NA,"Bering Sea",NA,"Alaska",59.3948,-175.3939
+NA,"Bering Sea",NA,"Alaska",59.3958,-175.4
+NA,"Bering Sea",NA,"Alaska",59.0791,-174.6358
+NA,"Bering Sea",NA,"Alaska",59.1233,-176.1739
+NA,"Bering Sea",NA,"Alaska",59.7242,-176.1899
+NA,"Homer","SC","Alaska",59.612,-151.4459
+NA,"Homer","SC","Alaska",59.624,-151.468
+NA,"Homer","SC","Alaska",59.6323,-151.4994
+NA,"Glacier National Park","SE","Alaska",58.2302,-136.0212
+NA,"Homer","SC","Alaska",59.6229,-151.4585
+NA,"Homer","SC","Alaska",59.6019,-151.4248
+NA,"Seldovia","SC","Alaska",59.4983,-151.715
+NA,"Central Kachemak Bay","SC","Alaska",59.6593166666667,-151.265783333333
+NA,"Central Kachemak Bay","SC","Alaska",59.6681,-151.20715
+NA,"Central Kachemak Bay","SC","Alaska",59.6393333333333,-151.263416666667
+NA,"Central Kachemak Bay","SC","Alaska",59.63645,-151.269783333333
+NA,"Central Kachemak Bay","SC","Alaska",59.6372666666667,-151.270216666667
+NA,"Central Kachemak Bay","SC","Alaska",59.6333666666667,-151.287116666667
+NA,"Central Kachemak Bay","SC","Alaska",59.6463833333333,-151.2708
+NA,"Central Kachemak Bay","SC","Alaska",59.6655,-151.276183333333
+NA,"Central Kachemak Bay","SC","Alaska",59.6467166666667,-151.27145
+NA,"Central Kachemak Bay","SC","Alaska",59.6426,-151.272116666667
+NA,"Central Kachemak Bay","SC","Alaska",59.6508333333333,-151.26205
+NA,"Central Kachemak Bay","SC","Alaska",59.6452833333333,-151.2991
+NA,"Central Kachemak Bay","SC","Alaska",59.6471333333333,-151.297966666667
+NA,"Central Kachemak Bay","SC","Alaska",59.6470333333333,-151.276416666667
+NA,"Central Kachemak Bay","SC","Alaska",59.64775,-151.235966666667
+NA,"Central Kachemak Bay","SC","Alaska",59.64775,-151.235933333333
+NA,"Central Kachemak Bay","SC","Alaska",59.64775,-151.2359
+NA,"Central Kachemak Bay","SC","Alaska",59.6423666666667,-151.305833333333
+NA,"Cohen Island","SC","Alaska",59.5428,-151.480283333333
+NA,"Cohen Island","SC","Alaska",59.5423666666667,-151.483116666667
+NA,"Cohen Island","SC","Alaska",59.5425666666667,-151.481616666667
+NA,"Cohen Island","SC","Alaska",59.53985,-151.479816666667
+NA,"Cohen Island","SC","Alaska",59.54375,-151.475033333333
+NA,"Cohen Island","SC","Alaska",59.5435833333333,-151.47235
+NA,"Cohen Island","SC","Alaska",59.5423166666667,-151.472966666667
+NA,"Cohen Island","SC","Alaska",59.5424666666667,-151.465933333333
+NA,"Cohen Island","SC","Alaska",59.5422833333333,-151.4661
+NA,"East of Mud Bay","SC","Alaska",59.6582666666667,-151.370016666667
+NA,"East of Mud Bay","SC","Alaska",59.6611333333333,-151.382883333333
+NA,"Homer","SC","Alaska",59.6014,-151.4234
+NA,"Homer","SC","Alaska",59.6403,-151.5705
+NA,"Homer","SC","Alaska",59.6047,-151.4186
+NA,"Neptune Bay","SC","Alaska",59.55225,-151.398333333333
+NA,"Neptune Point","SC","Alaska",59.5475166666667,-151.425433333333
+NA,"Neptune Point","SC","Alaska",59.5473666666667,-151.424933333333
+NA,"Seldovia","SC","Alaska",59.4894,-151.65075
+NA,"Seldovia Bay","SC","Alaska",59.4787,-151.706333333333
+NA,"Homer","SC","Alaska",59.6376,-151.5413
+NA,"Homer","SC","Alaska",59.6,-151.4096
+NA,"Homer","SC","Alaska",59.6008,-151.4088
+NA,"Homer","SC","Alaska",59.601,-151.4091
+NA,"Homer","SC","Alaska",59.6004,-151.4192
+NA,"Homer","SC","Alaska",59.6393,-151.4768
+NA,"Katmai National Park","SW","Alaska",59.5853,-151.327
+NA,"Sitka","SE","Alaska",57.3581,-135.4792
+NA,"Whittier","SC","Alaska",60.3778,-147.7122
+NA,"Homer","SC","Alaska",59.6005,-151.419
+NA,"Homer","SC","Alaska",59.6337,-151.5287
+NA,"Kodiak","SW","Alaska",57.7787,-152.3976
+NA,"Between Saginaw and Security Bays","SEA","Alaska",56.874,-134.349
+NA,"Grassy Reef, Keku Straight","SEA","Alaska",56.94928,-134.0578
+NA,"Monolith Keku Straight","SEA","Alaska",56.939,-134.15793
+NA,"Mouth of Security Bay","SEA","Alaska",56.883,-134.368383
+NA,"Payne Island","SEA","Alaska",56.96344,-134.12401
+NA,"South of Point Cornwallis","SEA","Alaska",56.938,-134.226
+NA,NA,"Ealeut",NA,NA,NA
+NA,"ne afognak","NAFOG",NA,NA,NA
+NA,"sw shuyak","NAFOG",NA,NA,NA
+NA,"nw afognak","NAFOG",NA,NA,NA
+NA,"w kodiak","WKOD",NA,NA,NA
+NA,"chiniak","EKOD",NA,NA,NA
+NA,"s afognak","NKOD",NA,NA,NA
+NA,"deranof","NKOD",NA,NA,NA
+NA,"Kodiak - EVOS area",NA,NA,NA,NA
+NA,"Adak",NA,NA,NA,NA
+NA,"Amchitka",NA,NA,NA,NA
+NA,"Kenai P.",NA,NA,NA,NA
+NA,"PWS",NA,NA,NA,NA
+NA,"Shemya",NA,NA,NA,NA
+NA,"Attu",NA,NA,NA,NA
+NA,"Aleutians",NA,NA,NA,NA
+NA,NA,NA,NA,NA,NA
+"SOUTH","ST GEORGE",NA,NA,NA,NA
+NA,"BOGOSLOF",NA,NA,NA,NA
+"NORTH","ST GEORGE",NA,NA,NA,NA
+"EAST","ST GEORGE",NA,NA,NA,NA
+"ZAPADNI","ST GEORGE",NA,NA,NA,NA
+"POLOVINA CLIFFS","ST PAUL",NA,NA,NA,NA
+"ZAPADNI REEF","ST PAUL",NA,NA,NA,NA
+NA,"ST PAUL",NA,NA,NA,NA
+NA,"AGATTU/CAPE SABAK",NA,NA,NA,NA
+NA,"SEGUAM/SADDLERIDGE",NA,NA,NA,NA
+NA,"ULAK/HASGOX POINT",NA,NA,NA,NA
+NA,"SUGARLOAF",NA,NA,NA,NA
+NA,"AGATTU/GILLON POINT",NA,NA,NA,NA
+NA,"BOGOSLOF/FIRE ISLAND",NA,NA,NA,NA
+NA,"UGAMAK/NORTH",NA,NA,NA,NA
+NA,"CHOWIET",NA,NA,NA,NA
+NA,"SEAL ROCKS",NA,NA,NA,NA
+NA,"UGAMAK/UGAMAK BAY",NA,NA,NA,NA
+NA,"WOODED (FISH)",NA,NA,NA,NA
+NA,"YUNASKA",NA,NA,NA,NA
+NA,"Homer",NA,NA,NA,NA
+NA,"AKUTAN/CAPE MORGAN",NA,NA,NA,NA
+NA,"CLUBBING ROCKS SOUTH",NA,NA,NA,NA
+NA,"Glacier National Park",NA,NA,NA,NA
+NA,"Seldovia",NA,NA,NA,NA
+NA,"Central Kachemak Bay",NA,NA,NA,NA
+NA,"Cohen Island",NA,NA,NA,NA
+NA,"East of Mud Bay",NA,NA,NA,NA
+NA,"Neptune Bay",NA,NA,NA,NA
+NA,"Neptune Point",NA,NA,NA,NA
+NA,"Seldovia Bay",NA,NA,NA,NA
+NA,"ADUGAK",NA,NA,NA,NA
+NA,"AKUN/BILLINGS HEAD",NA,NA,NA,NA
+NA,"ATKINS",NA,NA,NA,NA
+NA,"KASATOCHI/NORTH POINT",NA,NA,NA,NA
+NA,"KISKA/CAPE ST STEPHEN",NA,NA,NA,NA
+NA,"Katmai National Park",NA,NA,NA,NA
+NA,"Sitka",NA,NA,NA,NA
+NA,"Whittier",NA,NA,NA,NA
+NA,"Bering Sea",NA,NA,NA,NA
+NA,"MARMOT",NA,NA,NA,NA
+NA,"PINNACLE ROCK",NA,NA,NA,NA
+NA,"SEA LION ROCK (AMAK)",NA,NA,NA,NA
+NA,"Kotzebue",NA,NA,NA,NA
+NA,"St. Paul Is",NA,NA,NA,NA
+NA,"Kodiak",NA,NA,NA,NA
+NA,"St. George Is",NA,NA,NA,NA
+NA,"Between Saginaw and Security Bays",NA,NA,NA,NA
+NA,"Grassy Reef, Keku Straight",NA,NA,NA,NA
+NA,"Monolith Keku Straight",NA,NA,NA,NA
+NA,"Mouth of Security Bay",NA,NA,NA,NA
+NA,"Payne Island",NA,NA,NA,NA
+NA,"South of Point Cornwallis",NA,NA,NA,NA
+NA,"Kodiak",NA,NA,57.78,-152.4
+NA,"Long","C GULF",NA,57.776,-152.253
+NA,"Sea otter","C GULF",NA,58.521,-152.223
+NA,"Sunset Island","SEA",NA,57.501,-133.582
+NA,"Gran Point","SEA",NA,58.451,-135.9
+NA,"Benjamin Island","SEA",NA,58.564,-134.91
+NA,"SW Brothers","SEA",NA,57.298,-133.839
+NA,"Seward","SC",NA,60.1182,-149.438
+NA,"Seguam","C ALEU",NA,52.35083333,-172.5733
+NA,"Homer","SC",NA,59.6014,-151.4098
+NA,"Cordova","SC",NA,60.3333,-146.25
+NA,"Seldovia","SC",NA,59.4419,-151.7191
+NA,"Seldovia","SC",NA,59.4415,-151.719
+NA,"Homer","SC",NA,59.6129,-151.4478
+NA,"Homer","SC",NA,59.6082,-151.4325
+NA,"Adugak","E ALEU",NA,52.91166667,-169.175
+NA,"SEGUAM/SADDLERIDGE","C ALEU",NA,52.35083333,-172.5733
+NA,"Amak","E ALEU",NA,55.406,-163.163
+NA,"Kagalaska","C ALEU",NA,51.773,-176.268
+NA,"Semisopochnoi","W ALEU",NA,51.909,-179.621
+NA,"North Rocks","C ALEU",NA,51.817,-176.787
+NA,"Marmot","C GULF",NA,58.2275,-151.7958
+NA,"Marmot",NA,NA,58.2275,-151.7958
+NA,"Sugarloaf","C GULF",NA,58.8875,-152.04
+NA,"YUNASKA","C ALEU",NA,52.69,-170.6058
+NA,"Yanuska","C ALEU",NA,52.69,-170.6058
+NA,"Homer","SC",NA,59.612,-151.4459
+NA,"Homer","SC",NA,59.624,-151.468
+NA,"Homer","SC",NA,59.6323,-151.4994
+NA,"Kodiak","SW",NA,57.8588,-152.4234
+NA,"Unalaska","SW",NA,53.5983,-167.0496
+NA,"Homer","SC",NA,59.6019,-151.4248
+NA,"Chignik Lagoon","SW",NA,56.3163,-158.5204
+NA,"Homer","SC",NA,59.6388,-151.5485
+NA,"Kodiak","SW",NA,57.7259,-152.5165
+NA,"Homer","SC",NA,59.6213,-151.4647
+NA,"Homer","SC",NA,59.6007,-151.409
+NA,"Kodiak","SW",NA,57.8837,-153.2278
+NA,"Homer","SC",NA,59.6255,-151.4707
+NA,"Perry Island","C GULF",NA,60.696,-147.915
+NA,"Benjamin Island",NA,NA,58.56229667,-134.9099028
+NA,"Seal Rocks","E GULF",NA,60.163,-146.8383
+NA,"Graves Rock","SEA",NA,58.249,-136.757
+NA,"Homer","SC",NA,59.6229,-151.4585
+NA,"Glacier National Park","SE",NA,58.2302,-136.0212
+NA,"Seldovia","SC",NA,59.4983,-151.715
+NA,"Homer","SC",NA,59.6694,-151.7036
+NA,"Homer","SC",NA,59.6303,-151.4872
+NA,"Homer","SC",NA,59.6309,-151.4947
+NA,"Homer","SC",NA,59.6102,-151.4385
+NA,"Homer","SC",NA,59.6145,-151.4507
+NA,"Kodiak","SW",NA,57.76,-153.55
+NA,"Homer","SC",NA,59.7647,-151.866
+NA,"Gustavus","SE",NA,58.3918,-135.7235
+NA,"Homer","SC",NA,59.6187,-151.4516
+NA,"Glacier Bay Nat Park","SE",NA,58.5152,-136.0471
+NA,"Homer","SC",NA,59.6117,-151.4417
+NA,"Seldovia","SC",NA,59.6383,-151.2039
+NA,"Homer","SC",NA,59.6018,-151.4188
+NA,"Homer","SC",NA,59.64,-151.5643
+NA,"Homer","SC",NA,59.6084,-151.4369
+NA,"Homer","SC",NA,59.6755,-151.7189
+NA,"Homer","SC",NA,59.6289,-151.4816
+NA,"Homer","SC",NA,59.6307,-151.4929
+NA,"Homer","SC",NA,59.6002,-151.4094
+NA,"Homer","SC",NA,59.6128,-151.4493
+NA,"Homer","SC",NA,59.676,-151.7199
+NA,"Homer","SC",NA,59.6126,-151.4431
+NA,"Homer","SC",NA,59.7734,-151.868
+NA,"Homer","SC",NA,59.6695,-151.704
+NA,"Homer","SC",NA,59.6008,-151.4086
+NA,"Homer","SC",NA,59.6032,-151.4193
+NA,"Perry Island",NA,NA,60.696,-147.915
+NA,"South Marble Island","SEA",NA,58.643,-136.041
+NA,"Homer","SC",NA,59.6014,-151.4234
+NA,"Homer","SC",NA,59.6403,-151.5705
+NA,"Homer","SC",NA,59.6047,-151.4186
+NA,"Neptune Bay","SC",NA,59.55225,-151.398333333333
+NA,"Neptune Point","SC",NA,59.5475166666667,-151.425433333333
+NA,"Neptune Point","SC",NA,59.5473666666667,-151.424933333333
+NA,"Cohen Island","SC",NA,59.5428,-151.480283333333
+NA,"Cohen Island","SC",NA,59.5423666666667,-151.483116666667
+NA,"Cohen Island","SC",NA,59.5425666666667,-151.481616666667
+NA,"Cohen Island","SC",NA,59.53985,-151.479816666667
+NA,"Cohen Island","SC",NA,59.54375,-151.475033333333
+NA,"East of Mud Bay","SC",NA,59.6582666666667,-151.370016666667
+NA,"East of Mud Bay","SC",NA,59.6611333333333,-151.382883333333
+NA,"Central Kachemak Bay","SC",NA,59.6593166666667,-151.265783333333
+NA,"Cohen Island","SC",NA,59.5435833333333,-151.47235
+NA,"Cohen Island","SC",NA,59.5423166666667,-151.472966666667
+NA,"Central Kachemak Bay","SC",NA,59.6681,-151.20715
+NA,"Central Kachemak Bay","SC",NA,59.6393333333333,-151.263416666667
+NA,"Central Kachemak Bay","SC",NA,59.63645,-151.269783333333
+NA,"Central Kachemak Bay","SC",NA,59.6372666666667,-151.270216666667
+NA,"Central Kachemak Bay","SC",NA,59.6333666666667,-151.287116666667
+NA,"Central Kachemak Bay","SC",NA,59.6463833333333,-151.2708
+NA,"Central Kachemak Bay","SC",NA,59.6655,-151.276183333333
+NA,"Central Kachemak Bay","SC",NA,59.6467166666667,-151.27145
+NA,"Central Kachemak Bay","SC",NA,59.6426,-151.272116666667
+NA,"Central Kachemak Bay","SC",NA,59.6508333333333,-151.26205
+NA,"Central Kachemak Bay","SC",NA,59.6452833333333,-151.2991
+NA,"Central Kachemak Bay","SC",NA,59.6471333333333,-151.297966666667
+NA,"Central Kachemak Bay","SC",NA,59.6470333333333,-151.276416666667
+NA,"Central Kachemak Bay","SC",NA,59.64775,-151.235966666667
+NA,"Central Kachemak Bay","SC",NA,59.64775,-151.235933333333
+NA,"Central Kachemak Bay","SC",NA,59.64775,-151.2359
+NA,"Central Kachemak Bay","SC",NA,59.6423666666667,-151.305833333333
+NA,"Cohen Island","SC",NA,59.5424666666667,-151.465933333333
+NA,"Seldovia","SC",NA,59.4894,-151.65075
+NA,"Seldovia Bay","SC",NA,59.4787,-151.706333333333
+NA,"Cohen Island","SC",NA,59.5422833333333,-151.4661
+NA,"Homer","SC",NA,59.6412,-151.5586
+NA,"Homer","SC",NA,59.6616,-151.6833
+NA,"Kachemak Bay","SC",NA,59.4526,-151.5101
+NA,"Homer","SC",NA,59.615,-151.4464
+NA,"Homer","SC",NA,59.6339,-151.5254
+NA,"Homer","SC",NA,59.6771,-151.722
+NA,"Kachemak Bay","SC",NA,59.5133,-151.481
+NA,"Homer","SC",NA,59.6262,-151.4777
+NA,"Homer","SC",NA,59.6521,-151.4436
+NA,"Homer","SC",NA,59.6313,-151.4958
+NA,"Kodiak","SW",NA,57.977,-152.7165
+NA,"Kodiak","SW",NA,57.7851,-153.4353
+NA,"Homer","SC",NA,59.622,-151.457
+NA,"Homer","SC",NA,59.6053,-151.4208
+NA,"Homer","SC",NA,59.5999,-151.4106
+NA,"Cold Bay","SW",NA,55.2757,-162.6869
+NA,"Homer","SC",NA,59.6437,-151.4601
+NA,"Homer","SC",NA,59.6031,-151.4155
+NA,"Cordova","SC",NA,60.5377,-145.762
+NA,"SE?",NA,NA,NA,NA
+NA,"Fox Island, Seward",NA,NA,59.929,-149.324
+NA,"Glacier Is.",NA,NA,60.87,-147.451
+NA,"Trinity Islands",NA,NA,55.775,-155.6583333
+NA,"Homer",NA,NA,56.6388,-151.5479
+NA,"Cold Bay",NA,NA,55.4043,-162.7148
+NA,"Homer","SC",NA,59.6376,-151.5413
+NA,"Homer","SC",NA,59.6,-151.4096
+NA,"Whittier","SC",NA,60.7854,-148.7166
+NA,"Whittier","SC",NA,60.3778,-147.7122
+NA,"Homer","SC",NA,59.6008,-151.4088
+NA,"Homer","SC",NA,59.601,-151.4091
+NA,"Homer","SC",NA,59.6004,-151.4192
+NA,"Sitka","SE",NA,57.3581,-135.4792
+NA,"Homer","SC",NA,59.6393,-151.4768
+NA,"Homer","SC",NA,59.8292,-151.8239
+NA,"Homer","SC",NA,59.606,-151.425
+NA,"Homer","SC",NA,59.5994,-151.4142
+NA,"Kodiak","SW",NA,57.7595,-153.4944
+NA,"Kachemak Bay","SC",NA,59.6074,-151.4377
+NA,"Homer","SC",NA,59.8287,-151.8237
+NA,"Homer","SC",NA,59.6239,-151.4717
+NA,"Whittier","SC",NA,60.8018,-148.5861
+NA,"Homer","SC",NA,59.6816,-151.3718
+NA,"Homer","SC",NA,59.6368,-151.538
+NA,"Kachemak Bay","SC",NA,59.6749,-151.154
+NA,"Whittier","SC",NA,60.7817,-148.718
+NA,"Kachemak Bay","SC",NA,59.4719,-151.4333
+NA,"Homer","SC",NA,59.64,-151.5565
+NA,"Homer","SC",NA,59.6109,-151.4481
+NA,"Kamishak Bay","SW",NA,59.1231,-154.2372
+NA,"Kamishak Bay","SW",NA,59.2798,-151.1275
+NA,"Kamishak Bay","SW",NA,59.2769,-154.1303
+NA,"Kamishak Bay","SW",NA,59.2656,-154.1362
+NA,"Glacier Bay Nat Park","SE",NA,58.549,-136.0301
+NA,"Homer","SC",NA,59.6392,-151.5523
+NA,"Homer","SC",NA,59.7834,-151.0037
+NA,"Homer","SC",NA,59.6005,-151.4087
+NA,"Ninilchik","SW",NA,60.0488,-151.6731
+NA,"Homer","SC",NA,59.6002,-151.4089
+NA,"Homer","SC",NA,59.6102,-151.4426
+NA,"Homer","SC",NA,59.5853,-151.327
+NA,"Homer","SC",NA,59.5834,-151.2982
+NA,"Homer","SC",NA,59.633,-151.501
+NA,"Cold Bay","SW",NA,55.2198,-162.7247
+NA,"Glacier Bay Nat Park","SE",NA,58.454,-135.9316
+NA,"Homer","SC",NA,59.6214,-151.4621
+NA,"Homer","SC",NA,59.6219,-151.4592
+NA,"Homer","SC",NA,59.6276,-151.4723
+NA,"Homer","SC",NA,59.6381,-151.4851
+NA,"Homer","SC",NA,59.6374,-151.54
+NA,"Homer","SC",NA,59.6372,-151.54
+NA,"Homer","SC",NA,59.6067,-151.4363
+NA,"Cold Bay","SW",NA,55.4125,-162.7055
+NA,"Juneau","SE",NA,58.2562,-135.4314
+NA,"Kodiak","SW",NA,57.8333,-152.4333
+NA,"Sitka","SE",NA,57.0675,-135.4353
+NA,"Bering Sea",NA,NA,59.446,-174.732
+NA,"Gran Rock, Glacier Bay","SEA",NA,58.451,-135.9
+NA,"Kotzebue",NA,NA,66.3879,-162.4174
+NA,"Kotzebue",NA,NA,66.5617,-162.6854
+NA,"Kotzebue",NA,NA,66.611,-162.8948
+NA,"South Naknek",NA,NA,58.7086,-157.0732
+NA,"St. Paul Is",NA,NA,57.1625,-170.1752
+NA,"Homer","SC",NA,59.6005,-151.419
+NA,"Homer","SC",NA,59.6337,-151.5287
+NA,"Kodiak","SW",NA,57.7787,-152.3976
+NA,"Homer","SC",NA,59.631871,-151.498225
+NA,"Homer","SC",NA,59.6366,-151.538
+NA,"Homer","SC",NA,59.769,-151.8153
+NA,"Kachemak Bay","SC",NA,59.5588,-151.7045
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.6778320312544,-148.237582397523
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.3105514526101,-143.959213256796
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.2028579711914,-144.932678222656
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.0947036742972,-145.15428466806
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.7277420043707,-145.325198364485
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.2859619140387,-146.374682617261
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.7934051513541,-149.469342041126
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.5503326415895,-147.386462402412
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.8706588745117,-145.779113769531
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.4447601317824,-156.410046386553
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.1879974365488,-142.760311889813
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.0065460205558,-149.338217163099
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.8369674682771,-149.181549072327
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.6290283203125,-143.391464233398
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.012615966775,-149.720489501627
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.1981964111328,-142.38737487793
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.1997451781613,-143.889367675853
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.3221557618293,-142.134906005826
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.5276046752339,-148.046685790761
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.4683715820167,-146.65109863268
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.515036010809,-147.304232787647
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.3082763671879,-146.247103881905
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.2129837035588,-142.728427123972
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.0793258667527,-151.208340454183
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.6448974609231,-147.948944091722
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.6878189087294,-148.767623901467
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.8394012451498,-149.169168090734
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.514715576135,-147.352886962512
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.413330078125,-146.711090087891
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.5287780761719,-146.478454589844
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.3202987670605,-142.563781738193
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.0949157714965,-144.498095703047
+NA,"Southern Beaufort Sea near Barrow",NA,NA,69.8270278930716,-141.04732360854
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.6669021606449,-156.206954956047
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.9140350342198,-150.481655883844
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.5437088012599,-148.00624389656
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.1592117309737,-143.330786132793
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.1736907958984,-142.57551574707
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.462110900914,-141.664025878922
+NA,"Southern Beaufort Sea near Barrow",NA,NA,69.6759307861033,-141.036209106207
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.2021774292151,-144.294134521505
+NA,"Southern Beaufort Sea near Barrow",NA,NA,69.8831207275504,-140.943368530358
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.5456283568542,-147.980145263713
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.8847335815138,-149.327514648188
+NA,"Chukchi Sea",NA,NA,67.7916,-165.8689
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.4617691040039,-156.280212402344
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.026004028417,-149.410415649629
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.6209106445312,-147.712707519531
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.45933990477,-156.148184204078
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.4682052612892,-156.194699096888
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.4386093139825,-156.440512084885
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.4856567382812,-156.261352539062
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.4557723999023,-156.345230102539
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.5020721435472,-155.759374999955
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.5042526245115,-155.386434936479
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.6659606932842,-157.291076660363
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.1970596312901,-143.797540283444
+NA,"Southern Beaufort Sea near Barrow",NA,NA,69.9836059570247,-142.390838623108
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.7050903320238,-142.236495971294
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.6318969726562,-148.511825561523
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.5106994628233,-147.351403808895
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.7178771973065,-147.847070312568
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.7201065063204,-148.198373413054
+NA,"Chukchi Sea",NA,NA,68.0064,-167.1978
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.811210632399,-148.68649597165
+NA,"Chukchi Sea",NA,NA,68.0834,-166.91
+NA,"Chukchi Sea",NA,NA,67.8776,-167.0104
+NA,"Chukchi Sea",NA,NA,68.0344,-167.403
+NA,"Chukchi Sea",NA,NA,67.9551,-166.9837
+NA,"Chukchi Sea",NA,NA,67.9733,-167.3296
+NA,"Chukchi Sea",NA,NA,68.045,-167.0538
+NA,"Chukchi Sea",NA,NA,67.8367,-166.9271
+NA,"Chukchi Sea",NA,NA,67.5698,-167.4164
+NA,"Chukchi Sea",NA,NA,67.5906,-167.6595
+NA,"Chukchi Sea",NA,NA,67.7233,-167.5492
+NA,"Chukchi Sea",NA,NA,67.596,-166.0852
+NA,"Chukchi Sea",NA,NA,68.1102,-167.0844
+NA,"Chukchi Sea",NA,NA,67.9874,-166.8562
+NA,"Chukchi Sea",NA,NA,68.0437,-166.3526
+NA,"Chukchi Sea",NA,NA,68.0843,-167.1123
+NA,"Chukchi Sea",NA,NA,67.761,-166.556
+NA,"Chukchi Sea",NA,NA,67.9086,-167.3345
+NA,"Chukchi Sea",NA,NA,67.4666,-168.123
+NA,"Chukchi Sea",NA,NA,67.6154,-167.5724
+NA,"Chukchi Sea",NA,NA,67.7759,-165.8556
+NA,"Chukchi Sea",NA,NA,68.2555,-166.8212
+NA,"Chukchi Sea",NA,NA,67.6909,-165.4754
+NA,"Chukchi Sea",NA,NA,67.5877,-165.5358
+NA,"Chukchi Sea",NA,NA,68.7471,-167.3192
+NA,"Chukchi Sea",NA,NA,68.3465,-168.221
+NA,"Chukchi Sea",NA,NA,68.481,-168.0318
+NA,"Chukchi Sea",NA,NA,67.8605,-166.4745
+NA,"Chukchi Sea",NA,NA,68.0391,-166.5654
+NA,"Chukchi Sea",NA,NA,67.2627,-166.4334
+NA,"Chukchi Sea",NA,NA,68.0584,-167.6215
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.0087463379499,-149.424331664884
+NA,"Southern Beaufort Sea near Barrow",NA,NA,71.6375274657666,-157.272171020746
+NA,"Southern Beaufort Sea near Barrow",NA,NA,70.6994216919763,-147.656988525208
+NA,"Bering Sea",NA,NA,60.819,-171.1457
+NA,"Bering Sea",NA,NA,60.8782,-171.1844
+NA,"Bering Sea",NA,NA,60.4911,-171.6856
+NA,"Bering Sea",NA,NA,60.9614,-173.4561
+NA,"Bering Sea",NA,NA,60.9368,-173.4036
+NA,"Bering Sea",NA,NA,61.1979,-174.1581
+NA,"Bering Sea",NA,NA,61.9001,-174.6061
+NA,"Bering Sea",NA,NA,61.3544,-174.5742
+NA,"Bering Sea",NA,NA,61.3729,-174.6232
+NA,"Bering Sea",NA,NA,61.3774,-174.2808
+NA,"Bering Sea",NA,NA,61.3769,-174.282
+NA,"Bering Sea",NA,NA,61.9955,-171.0622
+NA,"Bering Sea",NA,NA,60.7825,-171.0702
+NA,"Bering Sea",NA,NA,60.8415,-171.1535
+NA,"Bering Sea",NA,NA,60.8822,-171.1979
+NA,"Bering Sea",NA,NA,60.8755,-171.244
+NA,"Bering Sea",NA,NA,60.5349,-171.7437
+NA,"Bering Sea",NA,NA,60.9633,-173.497
+NA,"Bering Sea",NA,NA,60.9488,-173.4078
+NA,"Bering Sea",NA,NA,61.1898,-174.1343
+NA,"Bering Sea",NA,NA,61.22,-174.2176
+NA,"Bering Sea",NA,NA,61.9107,-174.5435
+NA,"Bering Sea",NA,NA,61.8982,-174.586
+NA,"Bering Sea",NA,NA,61.8869,-174.7062
+NA,"Bering Sea",NA,NA,61.8433,-174.7448
+NA,"Bering Sea",NA,NA,61.3367,-174.5452
+NA,"Bering Sea",NA,NA,61.374,-174.3011
+NA,"Bering Sea",NA,NA,61.3872,-174.2456
+NA,"Bering Sea",NA,NA,61.9965,-171.0232
+NA,"Bering Sea",NA,NA,61.9855,-171.0629
+NA,"Bering Sea",NA,NA,59.4018,-171.5828
+NA,"Bering Sea",NA,NA,59.4082,-171.5855
+NA,"Bering Sea",NA,NA,59.4185,-171.5406
+NA,"Bering Sea",NA,NA,59.4295,-171.5571
+NA,"Bering Sea",NA,NA,62.514,-175.0502
+NA,"Bering Sea",NA,NA,62.4955,-175.0035
+NA,"Bering Sea",NA,NA,60.7719,-171.0609
+NA,"Bering Sea",NA,NA,60.7897,-171.1115
+NA,"Bering Sea",NA,NA,60.8278,-171.2026
+NA,"Bering Sea",NA,NA,60.8318,-171.1906
+NA,"Bering Sea",NA,NA,60.8232,-171.0617
+NA,"Bering Sea",NA,NA,60.8325,-171.0704
+NA,"Bering Sea",NA,NA,60.8351,-171.1522
+NA,"Bering Sea",NA,NA,61.2128,-174.199
+NA,"Bering Sea",NA,NA,61.9049,-174.5579
+NA,"Bering Sea",NA,NA,61.387,-174.2887
+NA,"Bering Sea",NA,NA,59.4086,-171.584
+NA,"Bering Sea",NA,NA,59.404,-171.5814
+NA,"Bering Sea",NA,NA,61.1083,-173.9084
+NA,"Bering Sea",NA,NA,61.1099,-173.9271
+NA,"Bering Sea",NA,NA,62.2848,-174.9402
+NA,"Bering Sea",NA,NA,62.28,-174.94
+NA,"Bering Sea",NA,NA,62.479,-174.9813
+NA,"Bering Sea",NA,NA,61.2791,-173.665
+NA,"Bering Sea",NA,NA,60.7657,-171.0303
+NA,"Bering Sea",NA,NA,60.7737,-171.0649
+NA,"Bering Sea",NA,NA,60.8379,-171.1122
+NA,"Bering Sea",NA,NA,60.851,-171.0902
+NA,"Bering Sea",NA,NA,60.8075,-171.0691
+NA,"Bering Sea",NA,NA,60.8174,-171.0665
+NA,"Bering Sea",NA,NA,60.5257,-171.6244
+NA,"Bering Sea",NA,NA,60.5283,-171.7173
+NA,"Bering Sea",NA,NA,61.4168,-174.5718
+NA,"Bering Sea",NA,NA,61.3953,-174.3087
+NA,"Bering Sea",NA,NA,62.0429,-170.9317
+NA,"Bering Sea",NA,NA,62.0203,-170.9883
+NA,"Point Hope",NA,NA,68.3438,-166.67
+NA,"St. Paul Is",NA,NA,57.111,-170.302
+NA,"St. George Is",NA,NA,55.4163,-169.6804
+NA,"Seward","SC",NA,61.1667,-149.7356
+NA,"Bering Sea",NA,NA,59.5595,-175.5598
+NA,"Bering Sea",NA,NA,59.3449,-177.597
+NA,"Bering Sea",NA,NA,59.3967,-175.3852
+NA,"Bering Sea",NA,NA,59.405,-175.43
+NA,"Bering Sea",NA,NA,59.4294,-175.4549
+NA,"Bering Sea",NA,NA,59.1301,-176.1786
+NA,"Bering Sea",NA,NA,59.1537,-176.2052
+NA,"Bering Sea",NA,NA,59.1402,-176.1994
+NA,"Bering Sea",NA,NA,59.7464,-175.7048
+NA,"Bering Sea",NA,NA,59.7207,-175.7755
+NA,"Bering Sea",NA,NA,59.4448,-177.6599
+NA,"Bering Sea",NA,NA,59.4476,-177.7058
+NA,"Bering Sea",NA,NA,59.2552,-177.8837
+NA,"Bering Sea",NA,NA,59.42,-175.4481
+NA,"Bering Sea",NA,NA,59.424,-175.4518
+NA,"Bering Sea",NA,NA,59.1074,-174.7229
+NA,"Bering Sea",NA,NA,60.1953,-174.5588
+NA,"Bering Sea",NA,NA,60.2074,-174.4914
+NA,"Bering Sea",NA,NA,59.1914,-176.2042
+NA,"Bering Sea",NA,NA,59.1324,-176.2068
+NA,"Bering Sea",NA,NA,59.8027,-177.0488
+NA,"Bering Sea",NA,NA,60.4666,-177.4312
+NA,"Bering Sea",NA,NA,60.2961,-177.25
+NA,"Bering Sea",NA,NA,59.7466,-175.7502
+NA,"Bering Sea",NA,NA,59.7541,-175.7407
+NA,"Bering Sea",NA,NA,59.4265,-177.6241
+NA,"Bering Sea",NA,NA,59.1285,-176.1765
+NA,"Bering Sea",NA,NA,59.1255,-176.2613
+NA,"Bering Sea",NA,NA,59.7641,-175.6962
+NA,"Bering Sea",NA,NA,59.4292,-177.6038
+NA,"Bering Sea",NA,NA,59.3948,-175.3939
+NA,"Bering Sea",NA,NA,59.3958,-175.4
+NA,"Bering Sea",NA,NA,59.0791,-174.6358
+NA,"Bering Sea",NA,NA,59.1233,-176.1739
+NA,"Bering Sea",NA,NA,59.7242,-176.1899
+NA,"Bering Sea",NA,NA,60.474,-177.4227
+NA,"Bering Sea",NA,NA,60.5401,-177.4388
+NA,"Bering Sea",NA,NA,59.7603,-175.7153
+NA,"Bering Sea",NA,NA,59.0721,-174.7142
+NA,"Bering Sea",NA,NA,60.5514,-177.4455
+NA,"Bering Sea",NA,NA,60.5527,-177.4493
+NA,"Bering Sea",NA,NA,60.5504,-177.4641
+NA,"BENJAMIN",NA,NA,58.564,-134.91
+NA,"SW BROTHERS I.",NA,NA,57.298,-133.839
+NA,"SAIL I.",NA,NA,57.348,-133.721
+NA,"MARMOT","C GULF",NA,58.2275,-151.7958
+NA,"SUGARLOAF","C GULF",NA,58.8875,-152.04
+NA,"Kotzebue",NA,NA,66.6872,-163.0837
+NA,"Kotzebue",NA,NA,66.6431,-162.9806
+NA,"Kotzebue",NA,NA,66.6439,-162.9744
+NA,"Keku Straight","SEA",NA,56.96565,-134.12633
+NA,"Head of Saginaw Bay","SEA",NA,56.853,-134.15
+NA,"Head of Saginaw Bay","SEA",NA,56.85416,-134.14659
+NA,"Head of Saginaw Bay","SEA",NA,56.85381,-134.14709
+NA,"Head of Saginaw Bay","SEA",NA,56.85349,-134.14882
+NA,"Head of Saginaw Bay","SEA",NA,56.85381,-134.14882
+NA,"Head of Saginaw Bay","SEA",NA,56.85381,-134.14903
+NA,"Head of Saginaw Bay","SEA",NA,56.85381,-134.14847
+NA,"Keku Straight near Payne Island","SEA",NA,56.94038,-134.17262
+NA,"Keku Straight near Payne Island","SEA",NA,56.94088,-134.16383
+NA,"Grassy Reef, Keku Straight","SEA",NA,56.94928,-134.0578
+NA,"Back off Saginaw Bay","SEA",NA,56.85353,-134.14951
+NA,"Mouth of Security Bay","SEA",NA,56.883,-134.368383
+NA,"Between Saginaw and Security Bays","SEA",NA,56.895,-134.352
+NA,"Between Saginaw and Security Bays","SEA",NA,56.874,-134.349
+NA,"South of Point Cornwallis","SEA",NA,56.938,-134.226
+NA,"Monolith Keku Straight","SEA",NA,56.939,-134.15793
+NA,"Payne Island","SEA",NA,56.96344,-134.12401
+NA,"Barrow, AK",NA,NA,71.295,-156.306
+NA,"Kotzebue, AK",NA,NA,66.899,-162.605
+NA,"Gambell",NA,NA,63.78,-171.744
+NA,"Savoonga",NA,NA,63.696,-170.478
+NA,"Akun Island","SW",NA,54.164,165.5986
+NA,"Shishmaref, AK",NA,NA,66.258,-166.07
+NA,"Kodiak, AK Cape Ugat Haulout","C GULF",NA,57.87,-153.8481
+NA,"Cape Ugat Haulout, Kodiak, AK",NA,NA,57.87,-153.8481
+NA,"Cape Ugat Haulout, Kodiak, AK","C GULF",NA,57.87,-153.8481
+NA,"Homer, AK",NA,NA,59.6366,-151.538
+NA,"Uganik Bay, AK",NA,NA,57.844,-153.325
+NA,"Sitka",NA,NA,57.075,-135.288
+NA,"Sea otter Island",NA,NA,58.521,-152.223

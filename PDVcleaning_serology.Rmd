@@ -108,6 +108,10 @@ serology <- full_join( x = seals,
 
 ```{r localizeR, eval = FALSE, include = FALSE}
 
+sero.locations <- serology %>% 
+  select( Location, Region, Area, Latitude, Longitude ) %>% 
+  distinct( . )
+
 sCapSite <- data.frame( Name = sort( unique(seals$Location) ), 
                         source = "seals", 
                         orig.column = "CaptureSite", 
@@ -132,6 +136,7 @@ oArea <- data.frame( Name = sort( unique(otters$Area) ),
 allLocs <- bind_rows( sCapSite, sRegion, sBRegion, oColLoc, oArea ) %>% arrange( Name )
 
 # write.csv( allLocs, file = "data/locations.csv", row.names = FALSE )
+# write.csv( sero.locations, file = "data/sero.locations.csv", row.names = FALSE )
 
 ```
 
